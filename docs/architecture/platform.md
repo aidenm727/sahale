@@ -147,7 +147,8 @@ Improves creative practice, experimentation, publishing, music, writing, visual 
 
 ### Repository
 
-`aiden-platform` is the root Platform engineering repository for Platform-wide
+The root Platform engineering repository has the accepted I1 target name
+`sahale`, with external cutover pending. It owns Platform-wide
 architecture, shared capabilities and systems, cross-domain contracts, root
 engineering coordination, and explicitly assigned responsibilities.
 
@@ -160,7 +161,7 @@ universal ledger of Platform activity.
 ### Atlas
 
 Atlas is the repository-local deterministic engineering control plane for
-`aiden-platform`; it is not a multi-repository control plane.
+this root repository; it is not a multi-repository control plane.
 
 Atlas helps humans and AI systems understand repository state, apply engineering contracts, verify changes, and evolve the platform deliberately.
 

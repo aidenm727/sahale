@@ -21,19 +21,23 @@ from atlas.platform.context_compilation.models import (
 
 SNAPSHOT_MODE = "clean_committed"
 
-# Post-rename R1 boundary: requests use the canonical current identity. The
-# prior slug remains accepted only as an explicit legacy origin locator.
-_CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/aiden-platform"
+# I1 candidate: requests use Sahale; external cutover remains pending.
+# Both former slugs remain explicit legacy origin locators only.
+_CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/sahale"
 _CURRENT_ORIGIN_LOCATORS = frozenset(
+    (
+        "git@github.com:aidenm727/sahale.git",
+        "ssh://git@github.com/aidenm727/sahale.git",
+        "https://github.com/aidenm727/sahale.git",
+        "https://github.com/aidenm727/sahale",
+    )
+)
+_LEGACY_ORIGIN_LOCATORS = frozenset(
     (
         "git@github.com:aidenm727/aiden-platform.git",
         "ssh://git@github.com/aidenm727/aiden-platform.git",
         "https://github.com/aidenm727/aiden-platform.git",
         "https://github.com/aidenm727/aiden-platform",
-    )
-)
-_LEGACY_ORIGIN_LOCATORS = frozenset(
-    (
         "git@github.com:aidenm727/t430-homelab.git",
         "ssh://git@github.com/aidenm727/t430-homelab.git",
         "https://github.com/aidenm727/t430-homelab.git",

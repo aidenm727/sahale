@@ -8,7 +8,7 @@ interaction and capability-incubation environment; it is not Sahale itself.
 Neither one repository, the Homelab, one database, one model, nor one execution
 environment defines the platform.
 
-`aiden-platform` remains the root Sahale engineering repository for shared systems,
+This repository remains the root Sahale engineering repository for shared systems,
 Platform-wide architecture, cross-domain contracts, and explicitly assigned
 responsibilities. It supports useful capability with explicit authority,
 reproducible evidence, and replaceable technology.
@@ -150,10 +150,16 @@ PYTHONPATH=tools PYTHONDONTWRITEBYTECODE=1 \
 ```
 
 `./atlas bootstrap` inspects repository state; it does not authorize work.
-School Learning keeps personal data outside Git. The canonical public clone is:
+School Learning keeps personal data outside Git. Before I1 cutover, the public clone remains:
 
 ```bash
 git clone https://github.com/aidenm727/aiden-platform.git
+```
+
+After the separately authorized and verified cutover, the canonical clone target is:
+
+```bash
+git clone https://github.com/aidenm727/sahale.git
 ```
 
 ## Public and Private Boundary
@@ -189,11 +195,13 @@ automatic coordination runtime are also future or conditional work.
 
 The [canonical state](docs/current-state.json) records R2 — Sahale Repository
 Architecture Refresh as owner-accepted, published, and complete at
-`b8d5b9ea0ccc7f6084c723f96a3c79382abf6d62`. Work selection is intentionally
-idle; no next checkpoint is selected. R2 changed no machine identity. The
-canonical GitHub repository remains `aidenm727/aiden-platform`; the existing local checkout,
-compiler identity, schemas, environment variables, persisted data, compatibility
-references, and historical evidence retain their identities.
+`b8d5b9ea0ccc7f6084c723f96a3c79382abf6d62`. I1 — Sahale Root Identity
+Migration is selected for local implementation only. Its compiler canonical
+identity is `github.com/aidenm727/sahale`; both former origin families remain
+compatible. GitHub remains `aidenm727/aiden-platform` and the checkout has not
+moved. Candidate acceptance, commit, publication, and external/application
+cutover remain pending. Schemas, protocols, environment variables, persisted
+data, historical evidence, and the generated context filename are unchanged.
 
 Repository-identity R1 remains owner-accepted, published, and complete at
 `483f1111257c9b1608c100cb88c8304a17d85314`. C1 is the owner-confirmed published

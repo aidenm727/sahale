@@ -120,14 +120,14 @@ def generate_context() -> None:
     source_graph = render_source_graph()
     generated_date = active_state.freshness.effective_date.isoformat()
 
-    output = f"""# Aiden Context
+    output = f"""# Sahale Context
 
 Generated: {generated_date} (canonical-state effective date; deterministic)
 
 ## Purpose
 
-This file is an AI-readable generated context packet for the public Aiden
-Platform engineering repository within its assigned root/shared scope. It
+This file is an AI-readable generated context packet for the public Sahale
+engineering repository within its assigned root/shared scope. It
 projects repository-local canonical active state, its human companion, and the
 registered public-safe infrastructure snapshot. It is generated and
 non-canonical, not a universal ledger of Platform activity. Designated sources

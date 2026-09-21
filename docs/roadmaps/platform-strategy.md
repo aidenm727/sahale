@@ -32,7 +32,8 @@ boundaries. Homelab is the first accepted candidate; extraction, migration, and
 repository creation remain separately designed and authorized future work.
 Restricted non-secret desired operational state also requires a concrete
 durable artifact and a separately designed source. Atlas remains local to
-`aiden-platform`.
+this root repository, whose accepted I1 target is `sahale`. External cutover
+is pending; identity migration precedes Homelab extraction.
 
 AI/tool selection evolves through the advisory maturity path owned by
 `docs/architecture/ai-operating-model.md`. This direction creates no evaluation

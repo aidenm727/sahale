@@ -588,13 +588,20 @@ The preserved AI Engineering Environment Review remains downstream and outside t
 
 ## Repository Identity Boundary
 
-The implemented compiler accepts only
-`github.com/aidenm727/aiden-platform` as the requested and normalized current
+The I1 candidate compiler accepts only
+`github.com/aidenm727/sahale` as the requested and normalized current
 repository identity. Supported SCP-style SSH, `ssh://`, and HTTPS origin forms
 for the current slug normalize to that identity. The same transport forms for
-the former `aidenm727/t430-homelab` slug are explicit legacy origin locators:
+both former `aidenm727/aiden-platform` and `aidenm727/t430-homelab` slugs
+are explicit legacy origin locators:
 they also normalize to the current identity, but the old canonical identity is
-not accepted as a current request.
+not accepted as a current request. GitHub and checkout cutover remain pending.
+
+Existing packages retain their recorded identity and bytes; validation uses
+that recorded identity without normalizing it to Sahale. Fresh execution needs
+a current Sahale request and new compilation. Repository identity participates
+in request and snapshot digests and therefore package identity. Schema URNs,
+`aiden.task-context.*`, and `aiden.context-compilation` remain unchanged.
 
 `RepositoryIdentityEvidence` keeps the requested canonical identity, ordered raw
 origin locator evidence, and normalized current identity distinct. Those values

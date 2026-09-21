@@ -39,7 +39,7 @@ from atlas.platform.reasoning import context_selection as selection_module
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/aiden-platform"
+CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/sahale"
 OLD_CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/t430-homelab"
 HISTORICAL_COMMIT = "79eef80af3d5969ece7eb9fe7f802be35575f450"
 HISTORICAL_TREE = "3d2853517e64209cffde91766a62e9f70ceb2e47"
@@ -262,19 +262,21 @@ class SelectionModelTests(SelectionFixture, unittest.TestCase):
 
 class BoundedSelectionTests(SelectionFixture, unittest.TestCase):
     def test_old_canonical_identity_is_rejected_as_current_request(self) -> None:
-        self.request = dataclasses.replace(
-            self.request,
-            repository=RepositoryRequestIdentity(
-                OLD_CANONICAL_REPOSITORY_IDENTITY,
-                HISTORICAL_COMMIT,
-            ),
-        )
-        with self.assertRaisesRegex(
-            SelectionContractError,
-            "repository identities do not match",
-        ):
-            self.build()
-        self.assertEqual(self.read_paths, [])
+        for identity in (OLD_CANONICAL_REPOSITORY_IDENTITY, "github.com/aidenm727/aiden-platform"):
+            with self.subTest(identity=identity):
+                self.request = dataclasses.replace(
+                    self.request,
+                    repository=RepositoryRequestIdentity(
+                        identity,
+                        HISTORICAL_COMMIT,
+                    ),
+                )
+                with self.assertRaisesRegex(
+                    SelectionContractError,
+                    "repository identities do not match",
+                ):
+                    self.build()
+                self.assertEqual(self.read_paths, [])
 
     def test_exact_five_rule_success_plan(self) -> None:
         plan = self.build()

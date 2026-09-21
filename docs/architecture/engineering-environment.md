@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The Aiden Platform should provide an integrated engineering environment that reduces cognitive load while increasing engineering understanding.
+Sahale should provide an integrated engineering environment that reduces cognitive load while increasing engineering understanding.
 
 The goal is not to automate engineering decisions.
 
@@ -52,7 +52,7 @@ The engineering environment consists of four primary layers.
              Canonical Repository
                         │
                         ▼
-               Aiden Platform
+               Sahale
 ```
 
 ---
@@ -81,7 +81,8 @@ AI systems assist engineering but never replace canonical documentation.
 ## Atlas
 
 Atlas is the repository-local deterministic engineering interface for
-`aiden-platform`. Extraction, generalization, and multi-repository coordination
+the root repository, whose accepted I1 target is `sahale`; external cutover
+is pending. Extraction, generalization, and multi-repository coordination
 are not part of the current operating model.
 
 Atlas should:

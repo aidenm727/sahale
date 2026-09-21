@@ -110,7 +110,7 @@ def print_checklist(title: str, files: list[str]) -> None:
 
 
 def main() -> None:
-    print("# Aiden Platform Engineering State\n")
+    print("# Sahale Engineering State\n")
 
     print("Git Status")
     print("----------")

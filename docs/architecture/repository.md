@@ -2,7 +2,7 @@
 
 ## Purpose
 
-`aiden-platform` is the root Sahale engineering repository. It owns Platform-wide architecture, shared capabilities and systems, cross-domain contracts, root engineering coordination, and responsibilities explicitly assigned to it.
+`sahale` is the accepted I1 target for the root Sahale engineering repository. It owns Platform-wide architecture, shared capabilities and systems, cross-domain contracts, root engineering coordination, and responsibilities explicitly assigned to it.
 
 It preserves vision, architecture, standards, infrastructure, operations, roadmaps, Repository Objects, generated context, and engineering tools.
 
@@ -35,7 +35,7 @@ The Homelab workspace, source/engineering domain, and execution environment
 are distinct roles under `docs/architecture/platform.md`. Hosting a Sahale
 service does not transfer its capability ownership to Homelab.
 
-Atlas remains local to `aiden-platform`. This ownership model introduces no
+Atlas remains local to this root repository. This ownership model introduces no
 repository registry, synchronization protocol, federation runtime, or change
 to task-context compilation.
 
@@ -44,17 +44,19 @@ to task-context compilation.
 Sahale is the human-facing platform identity. It is broader than this repository,
 ChatGPT, Homelab, or any execution environment. Presentation identity does not
 rename machine, schema, compatibility, persisted-data, or historical identities.
-The current local checkout remains unchanged; its historical basename is
-`t430-homelab`. Potential future repository and checkout names require a separate
-identity-migration checkpoint.
+I1 is a local implementation candidate. The observed origin still names
+`aidenm727/aiden-platform`; the checkout remains `~/src/t430-homelab`.
+The accepted cutover targets are `aidenm727/sahale` and `~/src/sahale`.
+GitHub rename, publication, checkout movement, and application updates are
+pending separate authority and fresh external verification.
 
-The current canonical compiler identity is
-`github.com/aidenm727/aiden-platform`, and the canonical public repository and
-clone target are `aidenm727/aiden-platform` and
-`https://github.com/aidenm727/aiden-platform.git`.
+The local candidate canonical compiler identity is
+`github.com/aidenm727/sahale`. The accepted future public clone target is
+`https://github.com/aidenm727/sahale.git`; until cutover, the observed public
+repository remains `aidenm727/aiden-platform`.
 
 Supported current-origin locator forms are SCP-style SSH, `ssh://`, and HTTPS
-with or without `.git`. The equivalent `aidenm727/t430-homelab` forms are
+with or without `.git`. The equivalent `aidenm727/aiden-platform` and `aidenm727/t430-homelab` forms are
 explicit legacy origin locators only: they normalize to the current canonical
 identity and are not accepted as a requested current identity. This narrow
 compatibility preserves deterministic use of older local origin configuration;
@@ -197,8 +199,8 @@ Examples:
 
 Generated artifacts must declare their sources, managing tool, and generated status.
 `docs/aiden-context.md` retains its compatibility filename and generator-owned
-Aiden heading; these are not the human-facing platform identity. R2 changes no
-generator identity contract.
+Sahale heading. `AIDEN_CONTEXT_GENERATED_FROM` remains a stable generator
+symbol. No duplicate context file or alias is introduced.
 
 ---
 

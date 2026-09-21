@@ -39,19 +39,23 @@ from atlas.platform.context_compilation.snapshot import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/aiden-platform"
+CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/sahale"
 OLD_CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/t430-homelab"
 HISTORICAL_COMMIT = "79eef80af3d5969ece7eb9fe7f802be35575f450"
 HISTORICAL_TREE = "3d2853517e64209cffde91766a62e9f70ceb2e47"
 PROTECTED_REF = "refs/heads/wip/distinctness-foundation-calibration"
 PROTECTED_OBJECT = "fcbc5957b89fe65a4313a3c23eb814e02a014698"
 CURRENT_ORIGINS = (
+    "git@github.com:aidenm727/sahale.git",
+    "ssh://git@github.com/aidenm727/sahale.git",
+    "https://github.com/aidenm727/sahale.git",
+    "https://github.com/aidenm727/sahale",
+)
+LEGACY_ORIGINS = (
     "git@github.com:aidenm727/aiden-platform.git",
     "ssh://git@github.com/aidenm727/aiden-platform.git",
     "https://github.com/aidenm727/aiden-platform.git",
     "https://github.com/aidenm727/aiden-platform",
-)
-LEGACY_ORIGINS = (
     "git@github.com:aidenm727/t430-homelab.git",
     "ssh://git@github.com/aidenm727/t430-homelab.git",
     "https://github.com/aidenm727/t430-homelab.git",
@@ -275,7 +279,7 @@ class ContextSnapshotTests(unittest.TestCase):
         self.assertEqual(calculated.value, independent)
         self.assertEqual(
             independent,
-            "0c97cda6c0684fe846186766b75c760dade350eae294a1a7b84a73abe6ad2a14",
+            "9705a59c55a11e1cf664f09c42c3f675366bdb9d41a3f628bc3832b583dadd43",
         )
         self.assertEqual(self._resolve().fingerprint, calculated)
         self.assertEqual(self._resolve().fingerprint, calculated)
@@ -354,12 +358,12 @@ class ContextSnapshotTests(unittest.TestCase):
             "https://gitlab.com/aidenm727/aiden-platform.git",
             "https://github.com/other/aiden-platform.git",
             "https://github.com/aidenm727/other.git",
-            "https://github.com/aidenm727/aiden-platform.git/extra",
-            "https://github.com/aidenm727/aiden-platform.git?x=1",
-            "https://github.com/aidenm727/aiden-platform.git#x",
-            "https://user@github.com/aidenm727/aiden-platform.git",
+            "https://github.com/aidenm727/sahale.git/extra",
+            "https://github.com/aidenm727/sahale.git?x=1",
+            "https://github.com/aidenm727/sahale.git#x",
+            "https://user@github.com/aidenm727/sahale.git",
             "https://github.com:443/aidenm727/aiden-platform.git",
-            "ssh://other@github.com/aidenm727/aiden-platform.git",
+            "ssh://other@github.com/aidenm727/sahale.git",
         )
         for origin in invalid:
             with self.subTest(origin=origin):
@@ -372,8 +376,17 @@ class ContextSnapshotTests(unittest.TestCase):
             self._resolve(repository_identity="github.com/other/repository")
 
     def test_old_canonical_identity_is_rejected_as_current_request(self) -> None:
-        with self.assertRaises(RepositoryIdentityError):
-            self._resolve(repository_identity=OLD_CANONICAL_REPOSITORY_IDENTITY)
+        for identity in (OLD_CANONICAL_REPOSITORY_IDENTITY, "github.com/aidenm727/aiden-platform"):
+            with self.subTest(identity=identity), self.assertRaises(RepositoryIdentityError):
+                self._resolve(repository_identity=identity)
+
+    def test_checkout_basename_does_not_change_snapshot_identity(self) -> None:
+        before = self._resolve()
+        relocated = self.workspace / "arbitrary-root-name"
+        self.repository.rename(relocated)
+        self.repository = relocated
+        after = self._resolve()
+        self.assertEqual(before, after)
 
     def test_revision_syntax_boundaries_are_rejected(self) -> None:
         invalid = (
@@ -455,6 +468,9 @@ class ContextSnapshotTests(unittest.TestCase):
             None,
             "clone",
             "--bare",
+            "--single-branch",
+            "--branch",
+            "main",
             "--no-local",
             "--no-hardlinks",
             str(ROOT),

@@ -1,4 +1,4 @@
-# Aiden Platform Repository Instructions
+# Sahale Repository Instructions
 
 ## Primary authority contract
 

@@ -16,6 +16,14 @@ class DocumentDefinition:
 
 
 DOCUMENT_DEFINITIONS = {
+    "docs/reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md": DocumentDefinition(
+        path="docs/reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md",
+        purpose="Records the bounded I1 local identity candidate, verification, review boundary, and pending external cutover and rollback plan.",
+        canonical=False,
+        capability="Engineering and Evolution",
+        tags=["sahale", "identity-migration", "checkpoint-evidence"],
+        related=["docs/architecture/repository.md", "docs/current-state.json"],
+    ),
     "docs/architecture/context-coordination.md": DocumentDefinition(
         path="docs/architecture/context-coordination.md",
         purpose="Defines Sahale's cross-cutting bounded context-resolution responsibility across distributed authoritative sources, above the existing deterministic compiler, without implementing a coordination runtime.",
@@ -45,7 +53,7 @@ DOCUMENT_DEFINITIONS = {
     ),
     "docs/vision.md": DocumentDefinition(
         path="docs/vision.md",
-        purpose="Defines why the Aiden Platform exists, its North Star, principles, human authority, non-goals, and long-term direction.",
+        purpose="Defines why Sahale exists, its North Star, principles, human authority, non-goals, and long-term direction.",
         capability="Platform Direction and Governance",
         tags=["vision", "platform-governance", "human-agency"],
         related=[
@@ -57,7 +65,7 @@ DOCUMENT_DEFINITIONS = {
     ),
     "docs/architecture/platform.md": DocumentDefinition(
         path="docs/architecture/platform.md",
-        purpose="Defines the structural architecture of the Aiden Platform, including Platform Foundations, Human Agency Domains, and major system boundaries.",
+        purpose="Defines the structural architecture of Sahale, including Platform Foundations, Human Agency Domains, and major system boundaries.",
         capability="Platform Direction and Governance",
         tags=["platform-architecture", "capability-architecture", "human-agency"],
         related=[
@@ -71,7 +79,7 @@ DOCUMENT_DEFINITIONS = {
     ),
     "docs/architecture/atlas.md": DocumentDefinition(
         path="docs/architecture/atlas.md",
-        purpose="Defines Atlas as the deterministic engineering interface for the Aiden Platform.",
+        purpose="Defines Atlas as the deterministic engineering interface for Sahale.",
         capability="Engineering",
         related=[
             "docs/architecture/engineering.md",
@@ -285,7 +293,7 @@ DOCUMENT_DEFINITIONS = {
 
     "docs/architecture/engineering.md": DocumentDefinition(
         path="docs/architecture/engineering.md",
-        purpose="Defines the engineering methodology and workflow used to evolve the Aiden Platform.",
+        purpose="Defines the engineering methodology and workflow used to evolve Sahale.",
         capability="Engineering",
         related=[
             "docs/architecture/platform.md",
@@ -603,7 +611,7 @@ DOCUMENT_DEFINITIONS = {
     ),
     "docs/roadmaps/engineering-toolkit.md": DocumentDefinition(
         path="docs/roadmaps/engineering-toolkit.md",
-        purpose="Roadmap for Atlas and the Aiden engineering toolkit.",
+        purpose="Roadmap for Atlas and the Sahale engineering toolkit.",
         capability="Engineering",
         tags=["roadmap", "atlas", "engineering-toolkit"],
         related=[
@@ -651,7 +659,7 @@ DOCUMENT_DEFINITIONS = {
     ),
     "docs/standards/engineering-collaboration.md": DocumentDefinition(
         path="docs/standards/engineering-collaboration.md",
-        purpose="Defines the standard for AI-assisted and human engineering collaboration on the Aiden Platform.",
+        purpose="Defines the standard for AI-assisted and human engineering collaboration on Sahale.",
         capability="Engineering",
         tags=["standards", "engineering-workflow", "collaboration"],
         related=[

@@ -45,7 +45,7 @@ R1_AUTHORIZED_SNAPSHOT_EXPANSION = {
         "29166f47ba02b129518a0311c4c5f46a64f8664f"
     ),
 }
-CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/aiden-platform"
+CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/sahale"
 HISTORICAL_COMMIT = "79eef80af3d5969ece7eb9fe7f802be35575f450"
 HISTORICAL_TREE = "3d2853517e64209cffde91766a62e9f70ceb2e47"
 PROTECTED_REF = "refs/heads/wip/distinctness-foundation-calibration"

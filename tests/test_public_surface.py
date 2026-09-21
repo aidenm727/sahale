@@ -20,7 +20,7 @@ from atlas.platform.document_definitions import definition_for
 ROOT = Path(__file__).resolve().parents[1]
 SELF = "tests/test_public_surface.py"
 LEGACY_SLUG = "t430-homelab"
-CURRENT_SLUG = "aiden-platform"
+CURRENT_SLUG = "sahale"
 
 EXPECTED_REMOVALS = (
     "docs/aiden-context-spec.md",
@@ -40,6 +40,9 @@ EXPECTED_REMOVALS = (
 
 OLD_IDENTITY_ALLOWLIST = frozenset(
     {
+        "docs/aiden-context.md",
+        "docs/current-mission.md",
+        "docs/reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md",
         "docs/architecture/repository.md",
         "docs/architecture/task-scoped-agent-context-compilation.md",
         "docs/reviews/ai-workflow-evaluation-cycle-2026-07.md",
@@ -393,7 +396,7 @@ class PublicSurfaceTests(unittest.TestCase):
         self.assertIn(CURRENT_SLUG, readme)
         self.assertRegex(
             readme,
-            r"git\s+clone\s+https://github\.com/aidenm727/aiden-platform\.git",
+            r"git\s+clone\s+https://github\.com/aidenm727/sahale\.git",
         )
 
     def test_old_host_names_are_historical_only(self) -> None:
@@ -611,12 +614,15 @@ class PublicSurfaceTests(unittest.TestCase):
         self.assertEqual(state["phase"]["id"], "sahale-r2-architecture-refresh")
         self.assertEqual(state["phase"]["lifecycle"], "published")
         self.assertEqual(state["phase"]["evidence_refs"], ["sahale-r2-publication"])
-        self.assertEqual(state["work_selection"]["status"], "intentional_idle")
-        self.assertIsNone(state["work_selection"]["selected_checkpoint"])
-        self.assertEqual(state["decision_required"]["id"], "select-future-work")
+        self.assertEqual(state["work_selection"]["status"], "selected")
+        checkpoint = state["work_selection"]["selected_checkpoint"]
+        self.assertEqual(checkpoint["id"], "sahale-i1-root-identity-migration")
+        self.assertEqual(checkpoint["lifecycle"], "selected")
+        self.assertEqual(checkpoint["evidence_refs"], [])
+        self.assertEqual(state["decision_required"]["id"], "accept-i1-local-candidate")
         self.assertEqual(
             state["decision_required"]["summary"],
-            "Owner selection of future work; no checkpoint or later capability is preselected.",
+            "Owner acceptance of the exact verified and independently reviewed I1 local candidate; cutover remains separately authorized.",
         )
         self.assertEqual(state["decision_required"]["status"], "pending")
         self.assertEqual(state["decision_required"]["evidence_refs"], [])
@@ -661,12 +667,12 @@ class PublicSurfaceTests(unittest.TestCase):
         self.assertNotIn("SL2-A is selected implementation work", mission)
         self.assertRegex(mission, r"final\s+independent Tier-2 review with no BLOCKING, MATERIAL, or MINOR findings")
         self.assertIn("School Learning Operational Loop lifecycle: Owner-accepted, published, and\n  complete at `00805e67057fcd68e9ea465749a2c8a1df2cd7f7`; not active selected\n  work.", mission)
-        self.assertIn("Owner selection of future work; no checkpoint or later capability is", mission)
+        self.assertIn("Owner acceptance of the exact verified and independently reviewed I1", mission)
         self.assertIn("S1, F2, F3, SL2-B", mission)
         self.assertIn("remain unselected", mission)
-        self.assertIn("Status: Intentional idle", mission)
+        self.assertIn("Status: Selected", mission)
         self.assertRegex(mission, r"R2 — Sahale Repository Architecture Refresh is owner-accepted, published, and\s+complete at `b8d5b9ea0ccc7f6084c723f96a3c79382abf6d62`")
-        self.assertIn("not selected or authorized by this synchronization", mission)
+        self.assertIn("no cutover has occurred", mission)
         self.assertRegex(mission, r"No deployment, live-data\s+migration, Canvas/Gmail/Calendar integration, or operational-runtime state is\s+established\.")
         self.assertIsNotNone(definition_for("docs/reviews/school-learning-v0-2-a-semester-core-intake-evidence-2026-08-26.md"))
 
@@ -708,6 +714,8 @@ class PublicSurfaceTests(unittest.TestCase):
             "tools/generate-context.py",
         )
 
+        self.assertTrue(self.text["docs/aiden-context.md"].startswith("# Sahale Context\n"))
+        self.assertIn("# Sahale Engineering State", self.text["tools/aiden-context-loader.py"])
         generator = runpy.run_path(str(ROOT / "tools/generate-context.py"))
         context_definition = definition_for("docs/aiden-context.md")
         self.assertIsNotNone(context_definition)
@@ -805,91 +813,91 @@ SELF_PRIVACY_DISPOSITIONS = {
     (
         "ip_literal",
         "<module>",
-        95,
+        98,
         "b0d56c1d28390f7e4ece0ae355b30ebe8c8618788c2d769736a939a7e0bb4dd4",
     ): 1,
     (
         "ip_literal",
         "<module>",
-        96,
+        99,
         "4b2228c26597aecab7d5894eb1ec83d915bc2e1a75d758b3b53471ce6aa2c91c",
     ): 1,
     (
         "ip_literal",
         "<module>",
-        97,
+        100,
         "b6da1098e40c579e98e90db3586dbc51897b22b28133a30c45aa6f31a5f0b88e",
     ): 1,
     (
         "ip_literal",
         "<module>",
-        98,
+        101,
         "4fb0798e0eb02d5310d95142b51ddadf3d03fcd929382309589f573c0f923264",
     ): 1,
     (
         "ip_literal",
         "<module>",
-        99,
+        102,
         "5da4236dba69f926f858153f06d49edc73f54ce8cd226d7239d1948e663610e0",
     ): 1,
     (
         "ip_literal",
         "test_internal_url_classifier_uses_exact_boundaries",
-        449,
+        452,
         "25ecb11bfd4a7ea50ba30b45ce32bdb1d3c083445643f00a75d3e039a1f39133",
     ): 1,
     (
         "ip_literal",
         "test_internal_url_classifier_uses_exact_boundaries",
-        450,
+        453,
         "0622464c1cff74f0dc58479d1b5329cb5edc290e50377b38b42c36d528853b3d",
     ): 1,
     (
         "ip_literal",
         "test_internal_url_classifier_uses_exact_boundaries",
-        458,
+        461,
         "9fee1dbd126b61ad5eb62f3d8f5e212f23c9b2e198dc972306821b4b2b9df745",
     ): 1,
     (
         "ip_literal",
         "test_historical_disposition_cannot_hide_an_added_internal_url",
-        471,
+        474,
         "99e68e6fb6f98ae9bbcea0fb5d7c831c326653011c5092cfe5daf4357f555984",
     ): 1,
     (
         "ip_literal",
         "test_self_disposition_cannot_hide_a_new_match_in_the_same_test",
-        480,
+        483,
         "99e68e6fb6f98ae9bbcea0fb5d7c831c326653011c5092cfe5daf4357f555984",
     ): 1,
     (
         "internal_url",
         "test_internal_url_classifier_uses_exact_boundaries",
-        457,
+        460,
         "3973e8f72e6b3292d4e95be96157a236e5c9b7444a4987892cf1253ca1c970eb",
     ): 1,
     (
         "internal_url",
         "test_internal_url_classifier_uses_exact_boundaries",
-        458,
+        461,
         "e02f7a62bd538cff9e53b3bec05f5f740f1c3fd639751346c476f871fe13f97e",
     ): 1,
     (
         "internal_url",
         "test_internal_url_classifier_uses_exact_boundaries",
-        459,
+        462,
         "f9d411589dde0d9963506dcf7ae3ab6108c10cf5b7bf1ed96a764e89504d46fc",
     ): 1,
     (
         "internal_url",
         "test_historical_disposition_cannot_hide_an_added_internal_url",
-        466,
+        469,
         "746095370fe2a67aaaa7f2414f15f9abf9312655094bf9166a3cbd76150be34a",
     ): 1,
     (
         "internal_url",
         "test_historical_disposition_cannot_hide_an_added_internal_url",
-        471,
+        474,
         "f1243b397a9d95c04fcc3ff96cdd383f067d1999e6773c198ffa0ebcfc8fd5df",
     ): 1,
     (
@@ -919,19 +927,19 @@ SELF_PRIVACY_DISPOSITIONS = {
     (
         "historical_host",
         "<module>",
-        104,
+        107,
         "28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163",
     ): 1,
     (
         "historical_host",
         "<module>",
-        104,
+        107,
         "49b3511f5ae71e18fb91cdd08fba6916608c5ea654f59e478bc433c93b5056cf",
     ): 1,
     (
         "historical_host",
         "test_renamed_documents_and_evidence_are_registered",
-        676,
+        682,
         "28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163",
     ): 1,
     (

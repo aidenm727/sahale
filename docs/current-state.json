@@ -10,14 +10,20 @@
     ]
   },
   "work_selection": {
-    "status": "intentional_idle",
-    "selected_checkpoint": null
+    "status": "selected",
+    "selected_checkpoint": {
+      "id": "sahale-i1-root-identity-migration",
+      "name": "I1 — Sahale Root Identity Migration",
+      "lifecycle": "selected",
+      "effective_date": "2026-09-18",
+      "evidence_refs": []
+    }
   },
   "blockers": [],
   "unknowns": [],
   "decision_required": {
-    "id": "select-future-work",
-    "summary": "Owner selection of future work; no checkpoint or later capability is preselected.",
+    "id": "accept-i1-local-candidate",
+    "summary": "Owner acceptance of the exact verified and independently reviewed I1 local candidate; cutover remains separately authorized.",
     "status": "pending",
     "evidence_refs": []
   },

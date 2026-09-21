@@ -49,7 +49,7 @@ from atlas.platform.reasoning import build_bounded_selection_plan
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/aiden-platform"
+CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/sahale"
 OLD_CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/t430-homelab"
 HISTORICAL_COMMIT = "79eef80af3d5969ece7eb9fe7f802be35575f450"
 HISTORICAL_TREE = "3d2853517e64209cffde91766a62e9f70ceb2e47"
@@ -459,19 +459,21 @@ class MaterializationPortableTests(PortableFixture, unittest.TestCase):
             self.assertIn(name, context_exports.__all__)
 
     def test_old_canonical_identity_is_rejected_as_current_request(self) -> None:
-        self.request = dataclasses.replace(
-            self.request,
-            repository=RepositoryRequestIdentity(
-                OLD_CANONICAL_REPOSITORY_IDENTITY,
-                HISTORICAL_COMMIT,
-            ),
-        )
-        with self.assertRaisesRegex(
-            MaterializationContractError,
-            "repository identities do not match",
-        ):
-            self.materialize()
-        self.assertEqual(self.read_paths, [])
+        for identity in (OLD_CANONICAL_REPOSITORY_IDENTITY, "github.com/aidenm727/aiden-platform"):
+            with self.subTest(identity=identity):
+                self.request = dataclasses.replace(
+                    self.request,
+                    repository=RepositoryRequestIdentity(
+                        identity,
+                        HISTORICAL_COMMIT,
+                    ),
+                )
+                with self.assertRaisesRegex(
+                    MaterializationContractError,
+                    "repository identities do not match",
+                ):
+                    self.materialize()
+                self.assertEqual(self.read_paths, [])
 
     def test_records_are_frozen_deeply_immutable_and_hide_payload_bytes(self) -> None:
         result = self.materialize()
@@ -919,6 +921,66 @@ class MaterializationPortableTests(PortableFixture, unittest.TestCase):
         self.assertEqual(mutable_assignments, [])
         self.assertNotIn("compiler.py", source)
         self.assertNotIn("explanation.py", source)
+
+
+class HistoricalPackageIdentityTests(unittest.TestCase):
+    def test_historical_packages_validate_without_identity_reinterpretation(self) -> None:
+        from tests.test_context_compilation import build_compilation_inputs
+        from atlas.platform.context_compilation import (
+            compile_context_package, validate_compiled_context_package,
+        )
+        from atlas.platform.context_compilation.canonical_json import canonicalize
+
+        request, budget, snapshot, materialization = build_compilation_inputs()
+        current = compile_context_package(
+            request=request, budget_policy=budget,
+            snapshot=snapshot, materialization=materialization,
+        ).package
+        for identity in (
+            "github.com/aidenm727/aiden-platform",
+            OLD_CANONICAL_REPOSITORY_IDENTITY,
+        ):
+            with self.subTest(identity=identity):
+                historical_request = dataclasses.replace(
+                    request, repository=dataclasses.replace(request.repository, identity=identity)
+                )
+                fingerprint = snapshot_fingerprint(
+                    identity, snapshot.object_format, snapshot.commit,
+                    snapshot.tree, snapshot.snapshot_mode,
+                )
+                historical_snapshot = dataclasses.replace(
+                    snapshot,
+                    repository=dataclasses.replace(
+                        snapshot.repository, requested_identity=identity,
+                        normalized_identity=identity,
+                    ),
+                    fingerprint=fingerprint,
+                )
+                historical_materialization = dataclasses.replace(
+                    materialization, repository_identity=identity,
+                    snapshot_fingerprint=fingerprint,
+                )
+                historical = compile_context_package(
+                    request=historical_request, budget_policy=budget,
+                    snapshot=historical_snapshot, materialization=historical_materialization,
+                ).package
+                before = canonicalize(historical)
+                self.assertTrue(validate_compiled_context_package(historical).valid)
+                self.assertEqual(canonicalize(historical), before)
+                self.assertEqual(historical["repository"]["identity"], identity)
+                self.assertNotEqual(historical["package"]["id"], current["package"]["id"])
+                tampered = json.loads(before)
+                tampered["repository"]["identity"] = CANONICAL_REPOSITORY_IDENTITY
+                self.assertFalse(validate_compiled_context_package(tampered).valid)
+                with self.assertRaisesRegex(MaterializationContractError, "repository identities do not match"):
+                    materialize_selection_plan(
+                        target_repository=ROOT, request=historical_request,
+                        snapshot=historical_snapshot,
+                        selection_plan=dataclasses.replace(
+                            portable_plan(tuple(source.plan for source in materialization.sources)),
+                            request_task_id=request.task["id"]["value"],
+                        ),
+                    )
 
 
 @unittest.skipUnless(
