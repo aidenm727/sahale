@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
   "phase": {
-    "id": "sahale-r2-architecture-refresh",
-    "name": "R2 — Sahale Repository Architecture Refresh",
+    "id": "sahale-i1-root-identity-migration",
+    "name": "I1 — Sahale Root Identity Migration",
     "lifecycle": "published",
-    "effective_date": "2026-09-18",
+    "effective_date": "2026-09-22",
     "evidence_refs": [
-      "sahale-r2-publication"
+      "sahale-i1-publication"
     ]
   },
   "work_selection": {
-    "status": "selected",
-    "selected_checkpoint": {
-      "id": "sahale-i1-root-identity-migration",
-      "name": "I1 — Sahale Root Identity Migration",
-      "lifecycle": "selected",
-      "effective_date": "2026-09-18",
-      "evidence_refs": []
-    }
+    "status": "intentional_idle",
+    "selected_checkpoint": null
   },
   "blockers": [],
   "unknowns": [],
   "decision_required": {
-    "id": "accept-i1-local-candidate",
-    "summary": "Owner acceptance of the exact verified and independently reviewed I1 local candidate; cutover remains separately authorized.",
+    "id": "select-future-work",
+    "summary": "Owner selection of future work; no checkpoint or later capability is preselected.",
     "status": "pending",
     "evidence_refs": []
   },
   "evidence_links": [
+    {
+      "id": "sahale-i1-publication",
+      "path": "docs/reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md",
+      "relation": "records_phase",
+      "commit": "995f1ae1fc6ed14ba4778688fabb96e994b65aa9"
+    },
     {
       "id": "sahale-r2-publication",
       "path": "docs/reviews/sahale-r2-architecture-refresh-evidence-2026-09-18.md",
@@ -54,7 +54,7 @@
     }
   ],
   "freshness": {
-    "effective_date": "2026-09-18",
+    "effective_date": "2026-09-22",
     "review_after": null
   },
   "authority": {

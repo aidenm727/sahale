@@ -609,35 +609,35 @@ class PublicSurfaceTests(unittest.TestCase):
                 missing.append(target)
         self.assertEqual(missing, [])
 
-    def test_active_state_preserves_published_school_learning_and_completed_r2(self) -> None:
+    def test_active_state_preserves_published_school_learning_and_completed_i1(self) -> None:
         state = json.loads(self.text["docs/current-state.json"])
-        self.assertEqual(state["phase"]["id"], "sahale-r2-architecture-refresh")
+        self.assertEqual(state["phase"]["id"], "sahale-i1-root-identity-migration")
         self.assertEqual(state["phase"]["lifecycle"], "published")
-        self.assertEqual(state["phase"]["evidence_refs"], ["sahale-r2-publication"])
-        self.assertEqual(state["work_selection"]["status"], "selected")
+        self.assertEqual(state["phase"]["evidence_refs"], ["sahale-i1-publication"])
+        self.assertEqual(state["work_selection"]["status"], "intentional_idle")
         checkpoint = state["work_selection"]["selected_checkpoint"]
-        self.assertEqual(checkpoint["id"], "sahale-i1-root-identity-migration")
-        self.assertEqual(checkpoint["lifecycle"], "selected")
-        self.assertEqual(checkpoint["evidence_refs"], [])
-        self.assertEqual(state["decision_required"]["id"], "accept-i1-local-candidate")
+        self.assertIsNone(checkpoint)
+        self.assertEqual(state["phase"]["name"], "I1 — Sahale Root Identity Migration")
+        self.assertEqual(state["phase"]["effective_date"], "2026-09-22")
+        self.assertEqual(state["decision_required"]["id"], "select-future-work")
         self.assertEqual(
             state["decision_required"]["summary"],
-            "Owner acceptance of the exact verified and independently reviewed I1 local candidate; cutover remains separately authorized.",
+            "Owner selection of future work; no checkpoint or later capability is preselected.",
         )
         self.assertEqual(state["decision_required"]["status"], "pending")
         self.assertEqual(state["decision_required"]["evidence_refs"], [])
         self.assertIn(
             {
-                "id": "sahale-r2-publication",
-                "path": "docs/reviews/sahale-r2-architecture-refresh-evidence-2026-09-18.md",
+                "id": "sahale-i1-publication",
+                "path": "docs/reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md",
                 "relation": "records_phase",
-                "commit": "b8d5b9ea0ccc7f6084c723f96a3c79382abf6d62",
+                "commit": "995f1ae1fc6ed14ba4778688fabb96e994b65aa9",
             },
             state["evidence_links"],
         )
         self.assertEqual(state["blockers"], [])
         self.assertEqual(state["unknowns"], [])
-        self.assertEqual(state["freshness"]["effective_date"], "2026-09-18")
+        self.assertEqual(state["freshness"]["effective_date"], "2026-09-22")
         self.assertIn(
             {
                 "id": "school-learning-operational-loop-publication",
@@ -667,12 +667,12 @@ class PublicSurfaceTests(unittest.TestCase):
         self.assertNotIn("SL2-A is selected implementation work", mission)
         self.assertRegex(mission, r"final\s+independent Tier-2 review with no BLOCKING, MATERIAL, or MINOR findings")
         self.assertIn("School Learning Operational Loop lifecycle: Owner-accepted, published, and\n  complete at `00805e67057fcd68e9ea465749a2c8a1df2cd7f7`; not active selected\n  work.", mission)
-        self.assertIn("Owner acceptance of the exact verified and independently reviewed I1", mission)
+        self.assertIn("Owner selection of future work; no checkpoint or later capability is", mission)
         self.assertIn("S1, F2, F3, SL2-B", mission)
         self.assertIn("remain unselected", mission)
-        self.assertIn("Status: Selected", mission)
+        self.assertIn("Status: Intentional idle", mission)
         self.assertRegex(mission, r"R2 — Sahale Repository Architecture Refresh is owner-accepted, published, and\s+complete at `b8d5b9ea0ccc7f6084c723f96a3c79382abf6d62`")
-        self.assertIn("no cutover has occurred", mission)
+        self.assertRegex(mission, r"I1 — Sahale Root Identity Migration is owner-accepted, published, and complete\s+at `995f1ae1fc6ed14ba4778688fabb96e994b65aa9`")
         self.assertRegex(mission, r"No deployment, live-data\s+migration, Canvas/Gmail/Calendar integration, or operational-runtime state is\s+established\.")
         self.assertIsNotNone(definition_for("docs/reviews/school-learning-v0-2-a-semester-core-intake-evidence-2026-08-26.md"))
 

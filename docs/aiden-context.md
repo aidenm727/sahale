@@ -1,6 +1,6 @@
 # Sahale Context
 
-Generated: 2026-09-18 (canonical-state effective date; deterministic)
+Generated: 2026-09-22 (canonical-state effective date; deterministic)
 
 ## Purpose
 
@@ -15,13 +15,13 @@ docs/architecture/repository.md for ownership.
 ## Canonical Active State
 
 - Schema version: 1
-- Effective date: 2026-09-18
-- Phase: R2 — Sahale Repository Architecture Refresh — Published
+- Effective date: 2026-09-22
+- Phase: I1 — Sahale Root Identity Migration — Published
 - Phase lifecycle: published
-- Work selection: selected
-- Selected checkpoint: I1 — Sahale Root Identity Migration
-- Intentional idle: No
-- Decision required: `accept-i1-local-candidate` — Owner acceptance of the exact verified and independently reviewed I1 local candidate; cutover remains separately authorized.
+- Work selection: intentional_idle
+- Selected checkpoint: None
+- Intentional idle: Yes
+- Decision required: `select-future-work` — Owner selection of future work; no checkpoint or later capability is preselected.
 
 ### Blockers
 
@@ -33,6 +33,7 @@ docs/architecture/repository.md for ownership.
 
 ### Evidence
 
+- `sahale-i1-publication`: `docs/reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md` at `995f1ae1fc6ed14ba4778688fabb96e994b65aa9` (records_phase)
 - `sahale-r2-publication`: `docs/reviews/sahale-r2-architecture-refresh-evidence-2026-09-18.md` at `b8d5b9ea0ccc7f6084c723f96a3c79382abf6d62` (records_phase)
 - `engineering-workflow-v1-2-publication`: `docs/reviews/engineering-workflow-v1-2-evidence-2026-09-16.md` at `d40c2891bd5cf79f674498ac6b5fed6bb1beac47` (records_phase)
 - `engineering-workflow-v1-1-publication`: `docs/reviews/engineering-workflow-v1-1-evidence-2026-08-01.md` at `27d99c1eb0ab30f7fcd11158f4c1d856bd6913de` (records_phase)
@@ -54,7 +55,7 @@ the two disagree.
 
 ### Phase
 
-R2 — Sahale Repository Architecture Refresh — Published
+I1 — Sahale Root Identity Migration — Published
 
 ### Active State
 
@@ -83,9 +84,20 @@ then separately authorized its one commit and non-force publication to canonical
 main. Publication succeeded on 2026-09-18. At lifecycle-synchronization startup,
 local HEAD, origin/main and freshly observed remote main all matched that commit.
 R2 no longer awaits candidate acceptance or publication and is no longer active
-selected implementation work. I1 is now selected for local implementation only.
+selected implementation work.
 
-Canonical state effective date: 2026-09-18.
+I1 — Sahale Root Identity Migration is owner-accepted, published, and complete
+at `995f1ae1fc6ed14ba4778688fabb96e994b65aa9`
+(`refactor: prepare Sahale root identity migration`). The canonical GitHub
+repository is `aidenm727/sahale`, repository ID `1161282866`; local `main`,
+`origin/main`, and remote `main` are aligned at that commit with `0/0`
+divergence. The owner-relative checkout is `~/src/sahale` and origin is
+`git@github.com:aidenm727/sahale.git`. Final post-cutover verification found no
+operational discrepancies. I1 no longer awaits candidate acceptance, external
+cutover, origin migration, publication, or checkout movement. Repository work
+selection is intentionally idle.
+
+Canonical state effective date: 2026-09-22.
 
 C1 is the owner-confirmed published baseline at
 `5dc5ccb75556aee74a6684a231fa012350d403e4`, also the locally observed base
@@ -98,17 +110,18 @@ gate remains open. No School runtime or storage change is selected here.
 
 ### Mission Intent
 
-Preserve published W2, historical W1, completed R1, G14, SL2-A, and the School Learning
-Operational Loop, human authority, generated ownership, and all public/private
-boundaries after completed R2 while preparing the bounded I1 local candidate.
+Preserve published I1 and R2, published W2, historical W1, completed R1, G14,
+SL2-A, and the School Learning Operational Loop, human authority, generated
+ownership, and all public/private boundaries while the owner selects future work.
 No deployment, live-data migration, Canvas/Gmail/Calendar integration, or operational-runtime state is
 established.
 
 ### Work Selection
 
-- Status: Selected.
-- Selected checkpoint: I1 — Sahale Root Identity Migration.
-- I1 lifecycle: Selected local implementation; not owner-accepted or published.
+- Status: Intentional idle.
+- Selected checkpoint: None.
+- I1 lifecycle: Owner-accepted, published, and complete at
+  `995f1ae1fc6ed14ba4778688fabb96e994b65aa9`; not active selected work.
 - R2 lifecycle: Owner-accepted, published, and complete at
   `b8d5b9ea0ccc7f6084c723f96a3c79382abf6d62`; not active selected work.
 - I0 design: Accepted by the owner for the bounded I1 implementation.
@@ -128,7 +141,7 @@ established.
 
 ### Next Milestone
 
-I1 — Sahale Root Identity Migration
+Intentional idle — no engineering checkpoint is selected.
 
 ### Blockers
 
@@ -140,25 +153,26 @@ None recorded in canonical active state.
 
 ### Owner Decision Required
 
-Owner acceptance of the exact verified and independently reviewed I1 local
-candidate. S1, F2, F3, SL2-B, and other future checkpoints remain unselected.
-Staging, commit, GitHub rename/settings, remote mutation, publication, checkout
-move, and Codex/IDE updates remain separately authorized gates.
+Owner selection of future work; no checkpoint or later capability is
+preselected. S1, F2, F3, SL2-B, and other future checkpoints remain unselected.
+This lifecycle-synchronization candidate remains local and uncommitted; staging,
+commit, publication, deployment, and subsequent work require separate authority.
 
-### I1 Candidate and Pending Cutover Boundary
+### Completed I1 Identity Boundary
 
-Sahale is the human-facing personal capability platform identity. The local
-I1 candidate requires `github.com/aidenm727/sahale` in current compiler requests.
+Sahale is the human-facing personal capability platform identity. Current
+compiler requests require `github.com/aidenm727/sahale`.
 Origins for `sahale`, `aiden-platform`, and `t430-homelab` normalize to it; old
-request identities are not silently upgraded. The observed GitHub origin still
-names `aidenm727/aiden-platform`, and the checkout remains `~/src/t430-homelab`.
-The accepted future checkout is `~/src/sahale`; no cutover has occurred.
+request identities are not silently upgraded. The canonical repository, origin,
+and checkout now use Sahale as recorded above.
 Schemas, protocols, environment variables, persisted data, and history remain
 unchanged. `docs/aiden-context.md` keeps its filename and now displays Sahale.
 Context coordination is a cross-cutting responsibility
 above the existing deterministic compiler, with no new runtime. Homelab's
 workspace, source/domain, and execution roles remain distinct from Sahale
-capability ownership. No UI, Homelab extraction, or external action is authorized.
+capability ownership. No executable repository path dependency assumes the
+former checkout. No UI, Homelab extraction, or subsequent external action is
+selected or authorized by this synchronization.
 
 The owner reports that the ChatGPT Project is now Sahale, with functional
 workspace names and one bounded `sahale-orientation.md` source replacing six
@@ -178,8 +192,11 @@ requires explicit owner authority outside repository state and Atlas.
 
 ### Evidence and History
 
-- `docs/reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md` —
-  local uncommitted I1 evidence; no fabricated publication identity.
+- `docs/reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md` at
+  `995f1ae1fc6ed14ba4778688fabb96e994b65aa9` — compound I1 implementation,
+  verification, acceptance, publication, cutover, and lifecycle evidence. Its
+  pre-cutover wording describes the historical candidate boundary, not the
+  current I1 lifecycle.
 
 - `docs/reviews/sahale-r2-architecture-refresh-evidence-2026-09-18.md` at
   `b8d5b9ea0ccc7f6084c723f96a3c79382abf6d62` — immutable R2 implementation
