@@ -30,7 +30,7 @@ no implementation or operation is claimed.
 | School Learning | Implemented; used in a bounded owner pilot | [Architecture](docs/architecture/school-learning.md), [implementation](tools/school_learning/), [tests](tests/test_school_learning.py), [pilot evaluation](docs/reviews/school-learning-v0-1-pilot-evaluation-2026-07-21.md) |
 | Atlas and Workflow v1.2 | Implemented; operational as the repository workflow | [`./atlas`](atlas), [typed state](docs/current-state.json), [W2 evidence](docs/reviews/engineering-workflow-v1-2-evidence-2026-09-16.md) |
 | Task-scoped context compilation | Implemented library capability; no general public CLI claim | [Architecture](docs/architecture/task-scoped-agent-context-compilation.md), [compiler](tools/atlas/platform/context_compilation/), [selection](tools/atlas/platform/reasoning/context_selection.py), [tests](tests/test_context_compilation.py) |
-| Self-hosted infrastructure | Dated operational evidence; continuous state is not claimed | [Homelab public engineering](https://github.com/aidenm727/homelab) (local H1 cutover candidate; publication pending) |
+| Self-hosted infrastructure | Dated operational evidence; continuous state is not claimed | [Published Homelab public engineering](https://github.com/aidenm727/homelab) |
 
 Implemented today: deterministic repository engineering tools, reproducible
 task-scoped context compilation, and an owner-controlled School Learning
@@ -165,8 +165,8 @@ git clone https://github.com/aidenm727/sahale.git
 | Fact class | Canonical owner |
 | --- | --- |
 | Root/shared Platform architecture, standards, code, tests, repository state and evidence within assigned scope | This public repository |
-| Independently substantial project/system engineering | An explicitly designated specialized repository when earned; Homelab is the first accepted candidate |
-| Homelab infrastructure patterns and selected dated public evidence | Homelab public engineering repository (local H1 candidate; publication pending) |
+| Independently substantial project/system engineering | An explicitly designated specialized repository when earned; Homelab is the first published owner |
+| Homelab infrastructure patterns and selected dated public evidence | [Published Homelab public engineering repository](https://github.com/aidenm727/homelab) |
 | Exact non-secret Homelab desired operational state | A separately designed restricted canonical source when a concrete durable operational artifact is identified |
 | Secret values, private keys, tokens, and recovery keys | Secret manager or protected operational storage; never Git |
 | Current live reality | Live systems and fresh observation |
@@ -186,15 +186,14 @@ functional names such as Vision, Engineering, Homelab, Health, Fitness, Career,
 and Email. A dedicated Sahale UI remains deferred until useful capabilities
 exist for it to expose.
 
-Homelab is the first accepted specialized-repository boundary. A local H1
-extraction candidate is prepared for review; repository creation and public
-cutover remain future owner decisions. A restricted operational source remains
+Homelab is the first published specialized-repository boundary. H1 extraction
+and public cutover are complete. A restricted operational source remains
 conditional on a concrete durable artifact.
 Local AI, broader knowledge sovereignty, additional recovery proof, and an
 automatic coordination runtime are also future or conditional work.
 
-The [canonical state](docs/current-state.json) records I1 — Sahale Root Identity
-Migration as published and selects intentional idle. The [generated current
+The [canonical state](docs/current-state.json) records H1 — Homelab Repository
+Extraction as published and selects intentional idle. The [generated current
 view](docs/current-mission.md) presents that state for humans. Dated evidence
 and Git history retain completed R1, R2, I1, and earlier lifecycle details.
 

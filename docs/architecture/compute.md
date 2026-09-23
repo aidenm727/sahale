@@ -17,8 +17,8 @@ roles and constraints, not reachability.
 ## Infrastructure Placement
 
 Homelab owns its core-services and virtualization role design and dated
-deployment evidence in the [planned public engineering repository](https://github.com/aidenm727/homelab)
-(local H1 candidate; publication pending). This Sahale policy does not claim
+deployment evidence in its [published public engineering repository](https://github.com/aidenm727/homelab).
+This Sahale policy does not claim
 current operation; fresh authorized observation owns runtime reality.
 
 ### Storage Environment

@@ -127,7 +127,7 @@ Examples include:
 - Engineering state inspection
 
 The Sahale `generate-context.py` remains a repository-local generated-context
-tool. The former Homelab change helper is retired by the H1 candidate; its
+tool. The former Homelab change helper was retired by H1; its
 dated records remain historical evidence.
 
 The engineering environment should continuously evolve toward a single coherent engineering interface.

@@ -21,7 +21,7 @@ from atlas.platform.context_compilation.models import (
 
 SNAPSHOT_MODE = "clean_committed"
 
-# I1 candidate: requests use Sahale; external cutover remains pending.
+# Sahale is published at the canonical slug; the I1 and H1 cutovers are complete.
 # Both former slugs remain explicit legacy origin locators only.
 _CANONICAL_REPOSITORY_IDENTITY = "github.com/aidenm727/sahale"
 _CURRENT_ORIGIN_LOCATORS = frozenset(

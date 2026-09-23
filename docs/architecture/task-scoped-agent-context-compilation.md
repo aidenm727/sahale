@@ -600,7 +600,7 @@ for the current slug normalize to that identity. The same transport forms for
 both former `aidenm727/aiden-platform` and `aidenm727/t430-homelab` slugs
 are explicit legacy origin locators:
 they also normalize to the current identity, but the old canonical identity is
-not accepted as a current request. GitHub and checkout cutover remain pending.
+not accepted as a current request. GitHub and checkout cutover are complete.
 
 Existing packages retain their recorded identity and bytes; validation uses
 that recorded identity without normalizing it to Sahale. Fresh execution needs

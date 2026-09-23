@@ -111,12 +111,12 @@ vocabulary. Atlas no longer assesses or selects opportunities.
 
 ## Infrastructure
 
-- [Homelab public engineering](https://github.com/aidenm727/homelab) — planned
-  specialized owner; local H1 candidate prepared, publication pending.
+- [Homelab public engineering](https://github.com/aidenm727/homelab) — published
+  specialized owner after H1 extraction.
 - `docs/infrastructure-snapshot.md` — generated bounded reference retained for
   Sahale context consumers.
 
-Homelab's candidate owns public infrastructure patterns and selected dated
+Homelab owns public infrastructure patterns and selected dated
 evidence. Repository Architecture owns the source boundary. Live systems and
 fresh observation own current reality; secret values never belong in Git.
 
@@ -139,7 +139,7 @@ fresh observation own current reality; secret values never belong in Git.
 - `docs/reviews/sahale-r2-architecture-refresh-evidence-2026-09-18.md` — R2 scope, baseline, architecture reconciliation, migration couplings, verification/review boundary, and owner-acceptance handoff.
 
 - `docs/reviews/current-state-baseline-debt-c1-evidence-2026-09-16.md` — Historical C1 baseline-cleanup evidence; the current owner confirms publication at `5dc5ccb75556aee74a6684a231fa012350d403e4`, without rewriting its pre-publication narrative.
-- `docs/reviews/engineering-workflow-v1-2-evidence-2026-09-16.md` — Dated W2 publication evidence for the workflow standard; canonical current state records published I1 and intentional idle.
+- `docs/reviews/engineering-workflow-v1-2-evidence-2026-09-16.md` — Dated W2 publication evidence for the workflow standard; canonical current state records published H1 and intentional idle.
 - `docs/reviews/school-learning-vnext-storage-spike-evidence-2026-09-08.md` — Retained provisional synthetic evidence, public-surface sanitized in C1; no architecture acceptance, promotion, or completed final spike review is claimed.
 
 - `docs/reviews/platform-operating-model-recalibration-r1-evidence-2026-09-15.md` — Dated non-canonical Tier-3 September recalibration evidence, including the authorized baseline verification exception; distinct from the historical repository-identity R1.

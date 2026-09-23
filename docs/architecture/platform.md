@@ -147,8 +147,7 @@ Improves creative practice, experimentation, publishing, music, writing, visual 
 
 ### Repository
 
-The root Platform engineering repository has the accepted I1 target name
-`sahale`, with external cutover pending. It owns Platform-wide
+The published root Platform engineering repository is `sahale`. It owns Platform-wide
 architecture, shared capabilities and systems, cross-domain contracts, root
 engineering coordination, and explicitly assigned responsibilities.
 
@@ -229,8 +228,8 @@ Execution location does not determine capability ownership. A Sahale-owned
 context service running on Homelab infrastructure remains a Sahale capability.
 `docs/architecture/repository.md` owns the first accepted specialized-repository
 boundary and the distinct public, restricted, live, and secret source placement.
-A local H1 extraction candidate is prepared; public repository creation and
-cutover require separate owner authorization.
+H1 extraction and publication are complete; future external writes still
+require separate owner authorization.
 
 ---
 

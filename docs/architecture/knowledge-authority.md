@@ -71,7 +71,7 @@ must preserve that owner's scope, provenance, sensitivity, and freshness.
 Root Platform architecture, specialized project engineering, restricted desired
 operational state, secret values, and current runtime observation are distinct
 responsibilities. `docs/architecture/repository.md` owns their repository
-placement and the accepted Homelab candidate boundary. Secrets stay outside
+placement and the published Homelab boundary. Secrets stay outside
 Git; live systems and fresh observation own current operational reality.
 Repository-local state and Atlas do not summarize all Platform activity.
 

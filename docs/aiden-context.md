@@ -1,6 +1,6 @@
 # Sahale Context
 
-Generated: 2026-09-22 (canonical-state effective date; deterministic)
+Generated: 2026-09-23 (canonical-state effective date; deterministic)
 
 ## Purpose
 
@@ -15,8 +15,8 @@ docs/architecture/repository.md for ownership.
 ## Canonical Active State
 
 - Schema version: 1
-- Effective date: 2026-09-22
-- Phase: I1 — Sahale Root Identity Migration — Published
+- Effective date: 2026-09-23
+- Phase: H1 — Homelab Repository Extraction — Published
 - Work selection: intentional_idle
 - Selected checkpoint: None
 - Decision required: Owner selection of future work; no checkpoint or later capability is preselected.
@@ -31,7 +31,7 @@ docs/architecture/repository.md for ownership.
 
 ### Evidence
 
-- `sahale-i1-publication`: `docs/reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md` at `995f1ae1fc6ed14ba4778688fabb96e994b65aa9` (records_phase)
+- `sahale-h1-publication`: `docs/reviews/h1-homelab-repository-extraction-evidence-2026-09-22.md` at `eb72fc8d281188ec09952a0b63865b5868c3c7a3` (records_phase)
 
 Authority for every action remains with the owner under `AGENTS.md`.
 
@@ -41,7 +41,7 @@ Generated from `docs/current-state.json` by `tools/generate-context.py`.
 
 ### Phase
 
-I1 — Sahale Root Identity Migration — Published
+H1 — Homelab Repository Extraction — Published
 
 ### Work Selection
 
@@ -61,11 +61,11 @@ Owner selection of future work; no checkpoint or later capability is preselected
 
 ### Freshness
 
-Effective 2026-09-22; review after not set.
+Effective 2026-09-23; review after not set.
 
 ### Active Evidence
 
-- [sahale-i1-publication](reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md) at `995f1ae1fc6ed14ba4778688fabb96e994b65aa9`
+- [sahale-h1-publication](reviews/h1-homelab-repository-extraction-evidence-2026-09-22.md) at `eb72fc8d281188ec09952a0b63865b5868c3c7a3`
 
 ## Infrastructure Snapshot
 
@@ -73,8 +73,8 @@ Effective 2026-09-22; review after not set.
 > Template owner: `build_infrastructure_snapshot()` in `tools/generate-context.py`.
 > Update that template and regenerate the registered outputs to change this text.
 
-Homelab owns public infrastructure engineering and dated operational evidence:
-https://github.com/aidenm727/homelab (publication pending for this local H1 candidate).
+Homelab owns public infrastructure engineering and dated operational evidence
+in its published repository: https://github.com/aidenm727/homelab.
 Sahale retains shared compute and execution policy in
 `docs/architecture/compute.md`. Hosting a Sahale capability on Homelab does
 not transfer design ownership. Current runtime reality requires fresh

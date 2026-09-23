@@ -121,3 +121,33 @@ one skipped), Atlas validate and sync, generator `--check`, the context loader
 smoke, and `git diff --check`. These results were obtained before this evidence
 append; final broad verification after this last mutation and the new two-tree
 fingerprint are reported with the corrected candidate.
+
+## Acceptance and publication closure
+
+Closure synchronization recorded 2026-09-23 for the publication completed
+2026-09-22.
+
+After the minor correction, the final 33-path H1 candidate fingerprint was
+`f8df9ef0f33aadef5474826ab19cf0f9fbeb48120fc388d03f892cb627124b73`.
+Targeted independent re-review reported no BLOCKING, MATERIAL, or MINOR
+findings, and the owner accepted that exact candidate. The Homelab root commit
+was `7b8e241cd8c1eefec38a838870a89dec5eb4b585`; its public publication
+succeeded and was verified. The Sahale cutover commit was
+`eb72fc8d281188ec09952a0b63865b5868c3c7a3`; its public publication
+succeeded and was verified. Both repositories aligned with their respective
+remote `main` branches at 0/0. Cross-repository links resolved, and no
+unexpected duplicate canonical ownership remained in current Sahale public
+documentation. This section records later outcomes without changing the
+earlier local-candidate chronology.
+
+## Closure synchronization delta review
+
+The first closure-sync review reproduced the 18-path combined fingerprint
+`052d990d573b2b99a93ef7703be716851793afa7e6e813ee61af567d6553e5ea`.
+It found no BLOCKING or MATERIAL issues and no scope creep. Its one MINOR
+finding was a completed repository migration still listed as deferred in
+`docs/roadmaps/platform-strategy.md`. The review also identified a related
+pre-existing stale I1 cutover comment in
+`tools/atlas/platform/context_compilation/snapshot.py`. Both statements were
+corrected in this local closure-sync candidate before acceptance; targeted
+delta re-review remains pending.

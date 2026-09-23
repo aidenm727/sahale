@@ -69,8 +69,8 @@ def build_infrastructure_snapshot() -> str:
 > Template owner: `build_infrastructure_snapshot()` in `tools/generate-context.py`.
 > Update that template and regenerate the registered outputs to change this text.
 
-Homelab owns public infrastructure engineering and dated operational evidence:
-https://github.com/aidenm727/homelab (publication pending for this local H1 candidate).
+Homelab owns public infrastructure engineering and dated operational evidence
+in its published repository: https://github.com/aidenm727/homelab.
 Sahale retains shared compute and execution policy in
 `docs/architecture/compute.md`. Hosting a Sahale capability on Homelab does
 not transfer design ownership. Current runtime reality requires fresh

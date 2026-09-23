@@ -25,11 +25,10 @@ This is selective, not one repository per capability or domain. Root Platform
 architecture and cross-domain contracts remain here; a specialized repository
 owns only its designated project or system engineering scope.
 
-Homelab is the first accepted specialized-repository boundary. The local H1
-candidate assigns public-safe topology, virtualization, network/service and
-storage/recovery engineering, Homelab-specific tooling, and selected dated
-evidence to Homelab. Publication and external cutover remain pending. The
-candidate does not claim that live systems or external evidence were inspected.
+Homelab is the first published specialized-repository boundary. H1 assigns
+public-safe topology, virtualization, network/service and storage/recovery
+engineering, Homelab-specific tooling, and selected dated evidence to Homelab.
+The extraction did not inspect live systems or external evidence.
 
 The Homelab workspace, source/engineering domain, and execution environment
 are distinct roles under `docs/architecture/platform.md`. Hosting a Sahale
@@ -129,9 +128,8 @@ implementation, publication, deployment, or external-write authority.
 ### Infrastructure
 
 Sahale owns shared compute and execution policy in `docs/architecture/compute.md`.
-The planned [Homelab public engineering repository](https://github.com/aidenm727/homelab)
-owns infrastructure patterns and selected dated evidence in the local H1
-candidate; publication is pending. `docs/infrastructure-snapshot.md` remains a
+The published [Homelab public engineering repository](https://github.com/aidenm727/homelab)
+owns infrastructure patterns and selected dated evidence. `docs/infrastructure-snapshot.md` remains a
 generated bounded reference for Sahale context consumers.
 
 These documents do not own exact live state or prove continuous availability.
@@ -203,8 +201,8 @@ symbol. No duplicate context file or alias is introduced.
 
 Within its assigned scope, the public root repository owns vision, architecture,
 standards, code, tests, public repository state, and Sahale-dated evidence.
-Homelab's local H1 candidate owns public Homelab engineering and its selected
-dated evidence; its public repository is not yet created.
+The published Homelab repository owns public Homelab engineering and its
+selected dated evidence.
 
 Exact non-secret Homelab desired operational state is accepted as deserving a
 separately designed restricted canonical source when a concrete durable

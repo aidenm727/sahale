@@ -609,7 +609,7 @@ class PublicSurfaceTests(unittest.TestCase):
 
     def test_current_state_and_generated_outputs(self) -> None:
         state = json.loads(self.text["docs/current-state.json"])
-        self.assertEqual(state["phase"]["id"], "sahale-i1-root-identity-migration")
+        self.assertEqual(state["phase"]["id"], "sahale-h1-homelab-repository-extraction")
         self.assertEqual(state["work_selection"]["status"], "intentional_idle")
         self.assertEqual(len(state["evidence_links"]), 1)
         self.assertNotIn("authority", state)

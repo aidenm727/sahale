@@ -4,7 +4,7 @@ Generated from `docs/current-state.json` by `tools/generate-context.py`.
 
 ## Phase
 
-I1 — Sahale Root Identity Migration — Published
+H1 — Homelab Repository Extraction — Published
 
 ## Work Selection
 
@@ -24,8 +24,8 @@ Owner selection of future work; no checkpoint or later capability is preselected
 
 ## Freshness
 
-Effective 2026-09-22; review after not set.
+Effective 2026-09-23; review after not set.
 
 ## Active Evidence
 
-- [sahale-i1-publication](reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md) at `995f1ae1fc6ed14ba4778688fabb96e994b65aa9`
+- [sahale-h1-publication](reviews/h1-homelab-repository-extraction-evidence-2026-09-22.md) at `eb72fc8d281188ec09952a0b63865b5868c3c7a3`
