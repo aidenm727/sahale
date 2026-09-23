@@ -102,7 +102,7 @@ Examples include:
 - Vision.
 - Architecture.
 - Standards.
-- Typed active state (`docs/current-state.json`) and its Current Mission companion.
+- Typed active state (`docs/current-state.json`); Current Mission is its generated view.
 - Infrastructure records.
 - Operations records.
 - Roadmaps.
@@ -253,7 +253,7 @@ Examples:
 - Cross-source context coordination -> `docs/architecture/context-coordination.md`.
 - AI operating rules -> `docs/architecture/ai-operating-model.md`.
 - Knowledge authority -> this document.
-- This repository's typed active state -> `docs/current-state.json`; human-readable companion -> `docs/current-mission.md`.
+- This repository's typed active state -> `docs/current-state.json`; generated human-readable view -> `docs/current-mission.md`.
 - Public-safe infrastructure patterns and dated observations -> infrastructure records.
 - Exact non-secret desired operational state -> an explicitly designated restricted source when separately designed.
 - Current runtime reality -> live systems and fresh observation.

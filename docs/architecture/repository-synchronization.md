@@ -1,5 +1,7 @@
 # Repository Synchronization Architecture
 
+> Historical Atlas design. Its command, catalog, readiness, and reasoning descriptions are superseded by [Atlas Architecture](atlas.md). Repository objects and dated opportunity records remain historical data, not an active Atlas command contract.
+
 ## Purpose
 
 Repository Synchronization Reasoning is an Atlas reasoning capability that determines whether the Aiden Platform repository remains internally synchronized across architecture, infrastructure, operations, roadmaps, generated context, and engineering state.

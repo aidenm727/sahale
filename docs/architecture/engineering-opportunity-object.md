@@ -1,5 +1,10 @@
 # Engineering Opportunity Object Architecture
 
+> Historical opportunity design. Structured opportunity files remain repository
+> records, but the current Atlas checker has no opportunity discovery,
+> assessment, reasoning, or command interface. The proposed integrations below
+> describe the original design, not implemented or selected work.
+
 ## Purpose
 
 An Engineering Opportunity Object is the repository-native record of a potential engineering improvement for the Aiden Platform.
@@ -26,9 +31,10 @@ An opportunity is a preserved engineering possibility that may later become arch
 
 ## Architectural Position
 
-Engineering Opportunity Objects belong to the Engineering capability of the Aiden Platform.
+The original design placed Engineering Opportunity Objects in the Engineering
+capability of the Aiden Platform.
 
-They support Engineering Opportunity and Engineering Opportunity Intelligence.
+It proposed Engineering Opportunity Intelligence as a downstream capability.
 
     Engineering Opportunity
         ↓
@@ -46,9 +52,8 @@ Engineering Opportunity defines the lifecycle.
 
 Engineering Opportunity Objects preserve individual opportunities.
 
-Engineering Opportunity Intelligence evaluates them.
-
-Atlas exposes and reasons about them.
+Engineering Opportunity Intelligence was intended to evaluate them. Atlas no
+longer exposes or reasons about opportunity objects.
 
 ---
 
@@ -88,7 +93,7 @@ YAML is appropriate because opportunity objects are:
 - structured
 - human readable
 - easy to diff
-- deterministic for Atlas
+- stable for human review and possible future parsers
 - suitable for future schema evolution
 
 Future formats may be introduced only if they improve repository reasoning without reducing human readability.
@@ -147,7 +152,8 @@ Example:
 
 The identifier should never change throughout the object's lifecycle.
 
-Stable identifiers allow opportunities to be referenced by architecture, missions, roadmaps, commits, and Atlas output.
+Stable identifiers allow opportunities to be referenced by architecture,
+roadmaps, dated evidence, and commits.
 
 ---
 
@@ -221,7 +227,8 @@ The status field represents the current lifecycle state.
 
 Status should change only when there is a clear engineering reason.
 
-Atlas should eventually validate that repository location and object status agree.
+The original design proposed checking that repository location and object
+status agree. No current Atlas command performs that check.
 
 For example:
 
@@ -271,28 +278,17 @@ Engineering Opportunity Intelligence may eventually recommend promoting an oppor
 
 ## Relationship to Atlas
 
-Atlas should understand Engineering Opportunity Objects as repository entities.
-
-Atlas should eventually be able to:
-
-- discover opportunities
-- validate opportunity schemas
-- detect duplicates
-- summarize opportunity state
-- relate opportunities to architecture
-- relate opportunities to missions
-- recommend lifecycle progression
-- expose opportunity intelligence through Engineering Review
-
-Commands should remain thin interfaces over reusable reasoning capabilities.
+The former Atlas opportunity command and its repository-object reasoning were
+retired in the substrate simplification checkpoint. Opportunity files remain
+available for human reading and explicit owner decisions. No replacement Atlas
+capability is selected here.
 
 ---
 
 ## Relationship to Engineering Opportunity Intelligence
 
-Engineering Opportunity Intelligence evaluates Engineering Opportunity Objects.
-
-It determines:
+The original design proposed an Engineering Opportunity Intelligence capability
+that would determine:
 
 - whether an opportunity is valid
 - whether it duplicates existing work
@@ -304,7 +300,7 @@ It determines:
 
 The object stores the opportunity.
 
-Engineering Opportunity Intelligence reasons about it.
+That capability is not part of the current Atlas checker.
 
 ---
 
@@ -334,11 +330,11 @@ Engineering Opportunity Objects must:
 
 - preserve engineering opportunities
 - remain understandable to humans
-- remain deterministic for Atlas
+- remain structured and understandable without a particular tool
 - avoid replacing architecture
 - avoid becoming free-form notes
 - avoid duplicating operational change records
-- support evidence-backed reasoning
+- support evidence-backed human review
 - support lifecycle progression
 
 ---
@@ -359,20 +355,14 @@ Engineering Opportunity Objects should not:
 
 ## Completion Criteria
 
-This architecture is considered established when:
-
-- the object purpose is documented
-- the lifecycle is documented
-- required fields are defined
-- repository ownership is defined
-- Atlas recognizes the object architecture
-- at least one captured object exists
-- Engineering Opportunity Intelligence can reason about these objects
+The original completion criteria included Atlas object recognition and
+opportunity reasoning. Those criteria describe the retired design and are not
+current Atlas acceptance gates.
 
 ---
 
 ## Future Direction
 
-Engineering Opportunity Objects should become a foundational repository entity for Atlas Engineering Intelligence.
-
-As Atlas evolves, it should reason across Engineering Opportunity Objects, architecture, missions, repository state, synchronization, validation, and engineering history to continuously identify high-leverage engineering improvements while preserving deliberate human judgment.
+Any future tool for opportunity files requires a separate concrete consumer,
+owner decision, and implementation scope. The current Atlas checker does not
+select or recommend opportunity work.

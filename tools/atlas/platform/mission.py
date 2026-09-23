@@ -1,41 +1,55 @@
-from atlas.platform.repository import current_mission, read_text
+"""A small human view derived from the canonical repository state."""
+
+from posixpath import relpath
+
+from atlas.platform.active_state import ActiveState
 
 
-def mission_text() -> str:
-    return read_text(current_mission())
+def render_mission(state: ActiveState) -> str:
+    checkpoint = state.work_selection.selected_checkpoint
+    selection = (
+        checkpoint.name if checkpoint else "Intentional idle; no checkpoint selected."
+    )
+    decision = state.decision_required.summary if state.decision_required else "None."
+    blockers = "\n".join(f"- {item.summary}" for item in state.blockers) or "- None"
+    unknowns = "\n".join(f"- {item.summary}" for item in state.unknowns) or "- None"
+    evidence = "\n".join(
+        f"- [{link.id}]({relpath(link.path, 'docs')}) at `{link.commit}`"
+        for link in state.evidence_links
+    ) or "- None"
+    review_after = (
+        state.freshness.review_after.isoformat()
+        if state.freshness.review_after else "not set"
+    )
+    return f"""# Current Repository State
 
+Generated from `docs/current-state.json` by `tools/generate-context.py`.
 
-def mission_lines() -> list[str]:
-    return mission_text().splitlines()
+## Phase
 
+{state.phase.display_name}
 
-def value_after_heading(heading: str) -> str:
-    lines = mission_lines()
+## Work Selection
 
-    for index, line in enumerate(lines):
-        stripped = line.strip()
+{selection}
 
-        if stripped == f"{heading}:":
-            return stripped.replace(f"{heading}:", "", 1).strip()
+## Blockers
 
-        if stripped == f"## {heading}":
-            for next_line in lines[index + 1:]:
-                next_stripped = next_line.strip()
+{blockers}
 
-                if not next_stripped or next_stripped == "---":
-                    continue
+## Unknowns
 
-                if next_stripped.startswith("#"):
-                    break
+{unknowns}
 
-                return next_stripped
+## Pending Decision
 
-    return "Unknown"
+{decision}
 
+## Freshness
 
-def mission_phase() -> str:
-    return value_after_heading("Phase")
+Effective {state.freshness.effective_date.isoformat()}; review after {review_after}.
 
+## Active Evidence
 
-def next_milestone() -> str:
-    return value_after_heading("Next Milestone")
+{evidence}
+"""

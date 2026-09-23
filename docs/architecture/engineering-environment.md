@@ -165,10 +165,9 @@ The engineering environment should help new AI sessions regain engineering conte
 
 A new AI session should not depend on the engineer manually reconstructing the platform state.
 
-The implemented `./atlas bootstrap` and supporting inspection interfaces
-report canonical phase and work
-selection, milestone applicability, validation and synchronization findings,
-relevant documents, current context sources, and suggested commands. Startup
+The implemented `./atlas bootstrap` reports local Git facts, canonical phase
+and work selection, typed-state validation, and registered generated-output
+drift. Startup
 and native preflight remain owned by
 `docs/architecture/engineering-sessions.md`; bootstrap does not establish
 execution-environment readiness or action authority by itself.
@@ -201,8 +200,8 @@ The engineering environment should:
 The long-term objective is an engineering environment where:
 
 - The repository records engineering knowledge.
-- Atlas understands the engineering system.
-- AI understands the platform through Atlas and generated context.
+- Atlas checks local repository facts.
+- AI reads canonical architecture and bounded context under owner authority.
 - The engineer focuses on architecture and engineering decisions rather than workflow coordination.
 
 The platform should continuously reduce friction while preserving engineering understanding.

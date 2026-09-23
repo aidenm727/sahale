@@ -168,15 +168,12 @@ For an important candidate, `Supersede`, `More Evidence`, and `Redirect` should 
 For repository knowledge, perform the following as relevant to the accepted destination and bounded application:
 
 - Destination-specific review.
-- Document registration.
+- Documentation Map update when readers need navigation.
 - Generated-context regeneration.
 - Tests.
 - `git diff --check`.
 - `./atlas validate`.
-- `./atlas missing`.
-- `./atlas docs` and `./atlas explain` when discovery changes.
 - `./atlas sync`.
-- `./atlas review`.
 - Commit and push after separate authorization.
 - Verification of a clean final repository state.
 

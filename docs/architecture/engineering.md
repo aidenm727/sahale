@@ -14,7 +14,7 @@ Engineering sessions are governed by:
 
     docs/standards/engineering-collaboration.md
 
-That document owns Engineering Workflow v1.1: consequence-based tiers, the
+That document owns Engineering Workflow v1.2: consequence-based tiers, the
 checkpoint brief, authority gates, proportional assurance, evidence, and
 publication/deployment procedure.
 
@@ -22,7 +22,7 @@ This architecture document defines engineering intent.
 
 The collaboration contract defines how that intent is applied during active engineering work.
 
-## Workflow v1.1 Entry Point
+## Workflow v1.2 Entry Point
 
 1. Classify the checkpoint by its highest potential consequence.
 2. Record one concise checkpoint brief.

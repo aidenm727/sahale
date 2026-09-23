@@ -24,13 +24,13 @@ Why it exists
 1. Vision
 2. Architecture
 3. Standards
-4. Canonical Active State and Current Mission
+4. Canonical Active State and Generated Human View
 5. Infrastructure
 6. Operations
 7. Roadmaps
 8. Generated Context
 
-Repository Objects and engineering tools support these layers.
+Repository Objects and engineering tools support these layers. Atlas does not catalog every document or interpret selected work.
 
 ---
 
@@ -61,28 +61,30 @@ Repository Objects and engineering tools support these layers.
 ## Engineering Architecture
 
 - `docs/architecture/engineering.md`
-- `docs/architecture/engineering-capabilities.md`
 - `docs/architecture/engineering-environment.md`
 - `docs/architecture/engineering-lifecycle.md`
 - `docs/architecture/engineering-sessions.md`
 - `docs/architecture/engineering-review.md`
-- `docs/architecture/engineering-intelligence.md`
-- `docs/architecture/reasoning.md`
-- `docs/architecture/repository-synchronization.md`
-- `docs/architecture/milestone-completion.md`
-- `docs/architecture/mission-advancement.md`
 
-## Repository Knowledge and Registration
+## Repository Objects
 
-- `docs/architecture/repository-metadata.md`
 - `docs/architecture/repository-object.md`
-- `docs/architecture/architecture-registration.md`
+
+## Historical Atlas Design
+
+Earlier capability, reasoning, metadata, synchronization, intelligence,
+milestone, mission-advancement, and architecture-registration designs remain in
+Git history and dated evidence. Surviving referenced design pages carry
+supersession notices. `docs/architecture/atlas.md` defines the current checker
+contract.
 
 ## Engineering Opportunity Architecture
 
+These documents preserve opportunity design history and structured candidate
+vocabulary. Atlas no longer assesses or selects opportunities.
+
 - `docs/architecture/engineering-opportunity.md`
 - `docs/architecture/engineering-opportunity-object.md`
-- `docs/architecture/engineering-opportunity-intelligence.md`
 - `docs/architecture/engineering-opportunity-assessment.md`
 - `docs/architecture/engineering-opportunity-capability-alignment.md`
 - `docs/architecture/engineering-opportunity-scope-classification.md`
@@ -101,13 +103,11 @@ Repository Objects and engineering tools support these layers.
 ## Canonical Active State
 
 - `docs/current-state.json` — Strict typed record for this repository's current phase, work
-  selection, concerns, pending owner decision, evidence freshness, and fixed
-  external-authority sentinels.
+  selection, concerns, pending owner decision, active evidence, and freshness.
 
-## Current Mission
+## Generated Current State View
 
-- `docs/current-mission.md` — Short human-readable companion to canonical active
-  state. Machine-readable state wins on conflict.
+- `docs/current-mission.md` — Short human-readable view generated from canonical active state by `tools/generate-context.py`.
 
 ## Infrastructure
 
@@ -139,10 +139,11 @@ observation own current reality; secret values never belong in Git.
 
 ## Portfolio Reviews
 
+- `docs/reviews/atlas-repository-substrate-simplification-evidence-2026-09-22.md` — Local simplification candidate, consumer findings, and verification boundary; acceptance and publication remain separate.
 - `docs/reviews/sahale-r2-architecture-refresh-evidence-2026-09-18.md` — R2 scope, baseline, architecture reconciliation, migration couplings, verification/review boundary, and owner-acceptance handoff.
 
 - `docs/reviews/current-state-baseline-debt-c1-evidence-2026-09-16.md` — Historical C1 baseline-cleanup evidence; the current owner confirms publication at `5dc5ccb75556aee74a6684a231fa012350d403e4`, without rewriting its pre-publication narrative.
-- `docs/reviews/engineering-workflow-v1-2-evidence-2026-09-16.md` — Dated W2 implementation evidence; Workflow v1.2 is the published phase recorded in canonical current state.
+- `docs/reviews/engineering-workflow-v1-2-evidence-2026-09-16.md` — Dated W2 publication evidence for the workflow standard; canonical current state records published I1 and intentional idle.
 - `docs/reviews/school-learning-vnext-storage-spike-evidence-2026-09-08.md` — Retained provisional synthetic evidence, public-surface sanitized in C1; no architecture acceptance, promotion, or completed final spike review is claimed.
 
 - `docs/reviews/platform-operating-model-recalibration-r1-evidence-2026-09-15.md` — Dated non-canonical Tier-3 September recalibration evidence, including the authorized baseline verification exception; distinct from the historical repository-identity R1.
@@ -248,13 +249,12 @@ This is a specialized reading path, not a new documentation layer.
 1. `docs/architecture/platform.md`
 2. `docs/architecture/repository.md`
 3. `docs/architecture/atlas.md`
-4. `docs/architecture/reasoning.md`
-5. `docs/architecture/engineering-sessions.md`
-6. `docs/architecture/task-scoped-agent-context-compilation.md`
-7. `docs/reviews/eo-2026-013-implementation-planning-review-2026-07-15.md`
-8. `docs/current-state.json`
-9. `docs/current-mission.md`
-10. `./atlas bootstrap`
+4. `docs/architecture/engineering-sessions.md`
+5. `docs/architecture/task-scoped-agent-context-compilation.md`
+6. `docs/reviews/eo-2026-013-implementation-planning-review-2026-07-15.md`
+7. `docs/current-state.json`
+8. `docs/current-mission.md`
+9. `./atlas bootstrap`
 
 ### School Learning
 
@@ -273,7 +273,7 @@ This is a specialized reading path, not a new documentation layer.
 1. Vision and Platform Architecture.
 2. Relevant capability architecture.
 3. Current infrastructure record.
-4. Canonical Active State and Current Mission.
+4. Canonical Active State and Generated Human View.
 5. Live verification.
 
 ### Engineering Opportunity Review
@@ -281,8 +281,8 @@ This is a specialized reading path, not a new documentation layer.
 1. Engineering Opportunity architecture.
 2. Relevant assessment architecture.
 3. Objects under review.
-4. Canonical Active State and Current Mission.
-5. Live Atlas state.
+4. Canonical Active State and Generated Human View.
+5. Fresh local Git observations and Atlas validation.
 
 Readers should not need every internal engineering document to understand the platform.
 
@@ -304,7 +304,7 @@ Generated context remains derived.
 
 `docs/current-state.json` owns this repository's typed active state; neither it nor
 Atlas is a universal ledger of Platform activity. `docs/current-mission.md`
-provides the compatible human companion. `AGENTS.md` is the primary
+provides a generated human view. `AGENTS.md` is the primary
 repository-local authority-interpretation contract. None of these sources
 creates current-session permission.
 
@@ -319,10 +319,9 @@ Update Architecture when structural responsibilities, capability identities, sys
 Update Standards when a repeatable expectation changes.
 
 Update Canonical Active State when the effective phase, work selection,
-concerns, decision, evidence, freshness, or fixed authority invariants change.
+concerns, decision, active evidence, or freshness change.
 
-Update Current Mission alongside Canonical Active State when its human-readable
-compatibility fields or concise intent change.
+Regenerate Current Mission with `tools/generate-context.py` after canonical state changes.
 
 Update Infrastructure when deployed state changes.
 
@@ -330,7 +329,7 @@ Update Operations when meaningful work or evidence must be preserved.
 
 Update Roadmaps when strategic sequencing or planning horizons change.
 
-Regenerate context when canonical sources change.
+Regenerate the registered outputs when their canonical sources change.
 
 ---
 

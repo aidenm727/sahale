@@ -31,7 +31,7 @@ of those authorities.
 - GitHub is the canonical documentation source, this repository is the root Platform engineering record for its explicitly assigned scope, and Atlas is its repository-local deterministic engineering interface. Canonical authority is source-scoped; neither this repository nor Atlas is a universal ledger of Platform activity. Follow `docs/architecture/repository.md`, `docs/architecture/knowledge-authority.md`, `docs/architecture/engineering-sessions.md`, and `docs/standards/engineering-collaboration.md`; reference their canonical owners instead of copying them.
 - Before engineering work, run `PYTHONDONTWRITEBYTECODE=1 ./atlas bootstrap` from the repository root. Then verify `git branch --show-current`, `git rev-parse HEAD`, and `git status --short --branch`, and read `docs/current-state.json` plus `docs/current-mission.md`.
 - Treat branch, commit, status, upstream tracking, mission, and Atlas output as live observations. Do not fetch or mutate refs merely to refresh them without explicit authorization.
-- `docs/current-state.json` owns this repository's typed active state. `docs/current-mission.md` is its short human-readable companion, and machine-readable state wins on conflict. Missing or invalid canonical state fails closed; Atlas must not fall back to mission prose.
+- `docs/current-state.json` owns this repository's typed active state. `docs/current-mission.md` is its generated human-readable view. Missing or invalid canonical state fails closed; Atlas must not fall back to mission prose.
 - Before the first mutation and native verification, complete the repository and
   execution-environment preflight defined in
   `docs/architecture/engineering-sessions.md`.
@@ -78,7 +78,7 @@ of those authorities.
   and reviewed candidate. The collaboration standard defines the bounds; no
   such authority is implicit in implementation or acceptance, and remote
   publication remains separately explicit.
-- `docs/aiden-context.md` and `docs/infrastructure-snapshot.md` are generated and owned by `tools/generate-context.py`. Update authorized canonical sources first, then run the registered generator; never edit generated output directly.
+- `docs/current-mission.md`, `docs/aiden-context.md`, and `docs/infrastructure-snapshot.md` are generated and owned by `tools/generate-context.py`. Update authorized canonical sources first, then run the registered generator; never edit generated output directly.
 
 ## Verification
 
@@ -90,5 +90,5 @@ of those authorities.
 - Run the tier-appropriate final broad verification after the last in-scope
   mutation. Any later mutation invalidates that run as final evidence. Keep
   synthetic fixtures separate from explicitly identified live-data smoke checks.
-- After authorized repository changes, run `PYTHONDONTWRITEBYTECODE=1 ./atlas validate`, `PYTHONDONTWRITEBYTECODE=1 ./atlas missing`, and `PYTHONDONTWRITEBYTECODE=1 ./atlas sync`.
+- After authorized repository changes, run `PYTHONDONTWRITEBYTECODE=1 ./atlas validate` and `PYTHONDONTWRITEBYTECODE=1 ./atlas sync`. Validation checks typed state, evidence identity, and required repository files; sync checks registered generated outputs byte for byte.
 - Run `git diff --check`, inspect the complete diff, verify `git status --short --branch`, and confirm that only authorized paths changed. Report exact commands, results, remaining uncertainty, and whether generated files are synchronized.

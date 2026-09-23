@@ -79,7 +79,8 @@ those facts. `docs/architecture/context-coordination.md` owns that boundary.
 
 Supports architecture, planning, implementation, debugging, documentation, repository reasoning, review, and controlled agentic workflows.
 
-Atlas remains the deterministic engineering control plane.
+Atlas remains a repository-local deterministic checker. Human and AI reasoning
+own architecture and planning under explicit owner authority.
 
 ### Knowledge Intelligence
 

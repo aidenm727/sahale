@@ -6,7 +6,6 @@ import tempfile
 import unittest
 
 from atlas.platform.active_state import (
-    AUTHORITY_SENTINEL,
     MAX_ACTIVE_STATE_BYTES,
     ActiveStateError,
     load_active_state,
@@ -70,11 +69,6 @@ class ActiveStateContractTests(unittest.TestCase):
                 "effective_date": freshness_effective_date,
                 "review_after": review_after,
             },
-            "authority": {
-                "task": AUTHORITY_SENTINEL,
-                "implementation": AUTHORITY_SENTINEL,
-                "publication": AUTHORITY_SENTINEL,
-            },
         }
 
     def parse(
@@ -113,9 +107,7 @@ class ActiveStateContractTests(unittest.TestCase):
                 state.freshness.effective_date,
                 checkpoint.effective_date,
             )
-        self.assertEqual(state.authority.task, AUTHORITY_SENTINEL)
-        self.assertEqual(state.authority.implementation, AUTHORITY_SENTINEL)
-        self.assertEqual(state.authority.publication, AUTHORITY_SENTINEL)
+        self.assertFalse(hasattr(state, "authority"))
 
     def test_synthetic_decision_summary_is_preserved_without_live_claims(self) -> None:
         summary = "Owner decision on the synthetic checkpoint is pending."
@@ -192,7 +184,7 @@ class ActiveStateContractTests(unittest.TestCase):
             '{"schema_version":1,"schema_version":1,"phase":{},'
             '"work_selection":{},"blockers":[],"unknowns":[],'
             '"decision_required":null,"evidence_links":[],'
-            '"freshness":{},"authority":{}}'
+            '"freshness":{}}'
         ).encode("utf-8")
         with self.assertRaisesRegex(ActiveStateError, "duplicate JSON object key"):
             parse_active_state_bytes(
@@ -246,8 +238,8 @@ class ActiveStateContractTests(unittest.TestCase):
 
     def test_missing_top_level_key_is_rejected(self) -> None:
         value = copy.deepcopy(self.valid)
-        del value["authority"]
-        self.assert_invalid(value, "missing required key.*authority")
+        del value["freshness"]
+        self.assert_invalid(value, "missing required key.*freshness")
 
     def test_unknown_top_level_key_is_rejected(self) -> None:
         value = copy.deepcopy(self.valid)
@@ -333,6 +325,16 @@ class ActiveStateContractTests(unittest.TestCase):
         value["phase"]["evidence_refs"] = ["not-present"]
         self.assert_invalid(value, "phase evidence reference does not resolve")
 
+    def test_historical_unreferenced_evidence_is_rejected(self) -> None:
+        value = copy.deepcopy(self.valid)
+        value["evidence_links"].append({
+            "id": "old-publication",
+            "path": "docs/architecture/repository.md",
+            "relation": "records_phase",
+            "commit": "0" * 40,
+        })
+        self.assert_invalid(value, "only active references")
+
     def test_incompatible_evidence_relation_is_rejected(self) -> None:
         value = copy.deepcopy(self.valid)
         value["phase"]["evidence_refs"] = ["synthetic-phase-definition"]
@@ -384,10 +386,10 @@ class ActiveStateContractTests(unittest.TestCase):
         ).isoformat()
         self.assert_invalid(value, "review_after must not precede")
 
-    def test_authority_values_are_fixed_non_authority_sentinels(self) -> None:
+    def test_authority_claim_is_rejected_as_unknown_state(self) -> None:
         value = copy.deepcopy(self.valid)
-        value["authority"]["implementation"] = "authorized"
-        self.assert_invalid(value, "fixed non-authority sentinel")
+        value["authority"] = {"implementation": "authorized"}
+        self.assert_invalid(value, "unknown key.*authority")
 
     def test_evidence_paths_must_be_repository_relative(self) -> None:
         value = copy.deepcopy(self.valid)

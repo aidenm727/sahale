@@ -27,39 +27,10 @@
       "path": "docs/reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md",
       "relation": "records_phase",
       "commit": "995f1ae1fc6ed14ba4778688fabb96e994b65aa9"
-    },
-    {
-      "id": "sahale-r2-publication",
-      "path": "docs/reviews/sahale-r2-architecture-refresh-evidence-2026-09-18.md",
-      "relation": "records_phase",
-      "commit": "b8d5b9ea0ccc7f6084c723f96a3c79382abf6d62"
-    },
-    {
-      "id": "engineering-workflow-v1-2-publication",
-      "path": "docs/reviews/engineering-workflow-v1-2-evidence-2026-09-16.md",
-      "relation": "records_phase",
-      "commit": "d40c2891bd5cf79f674498ac6b5fed6bb1beac47"
-    },
-    {
-      "id": "engineering-workflow-v1-1-publication",
-      "path": "docs/reviews/engineering-workflow-v1-1-evidence-2026-08-01.md",
-      "relation": "records_phase",
-      "commit": "27d99c1eb0ab30f7fcd11158f4c1d856bd6913de"
-    },
-    {
-      "id": "school-learning-operational-loop-publication",
-      "path": "docs/reviews/school-learning-operational-loop-implementation-evidence-2026-08-30.md",
-      "relation": "supports_checkpoint",
-      "commit": "00805e67057fcd68e9ea465749a2c8a1df2cd7f7"
     }
   ],
   "freshness": {
     "effective_date": "2026-09-22",
     "review_after": null
-  },
-  "authority": {
-    "task": "external-not-established-by-repository-or-atlas",
-    "implementation": "external-not-established-by-repository-or-atlas",
-    "publication": "external-not-established-by-repository-or-atlas"
   }
 }

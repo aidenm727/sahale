@@ -10,11 +10,6 @@ import subprocess
 import unittest
 from urllib.parse import urlsplit
 
-from atlas.platform.discovery import (
-    infrastructure_documents,
-    portfolio_evidence_documents,
-)
-from atlas.platform.document_definitions import definition_for
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,8 +35,6 @@ EXPECTED_REMOVALS = (
 
 OLD_IDENTITY_ALLOWLIST = frozenset(
     {
-        "docs/aiden-context.md",
-        "docs/current-mission.md",
         "docs/reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md",
         "docs/architecture/repository.md",
         "docs/architecture/task-scoped-agent-context-compilation.md",
@@ -609,139 +602,18 @@ class PublicSurfaceTests(unittest.TestCase):
                 missing.append(target)
         self.assertEqual(missing, [])
 
-    def test_active_state_preserves_published_school_learning_and_completed_i1(self) -> None:
+    def test_current_state_and_generated_outputs(self) -> None:
         state = json.loads(self.text["docs/current-state.json"])
         self.assertEqual(state["phase"]["id"], "sahale-i1-root-identity-migration")
-        self.assertEqual(state["phase"]["lifecycle"], "published")
-        self.assertEqual(state["phase"]["evidence_refs"], ["sahale-i1-publication"])
         self.assertEqual(state["work_selection"]["status"], "intentional_idle")
-        checkpoint = state["work_selection"]["selected_checkpoint"]
-        self.assertIsNone(checkpoint)
-        self.assertEqual(state["phase"]["name"], "I1 — Sahale Root Identity Migration")
-        self.assertEqual(state["phase"]["effective_date"], "2026-09-22")
-        self.assertEqual(state["decision_required"]["id"], "select-future-work")
-        self.assertEqual(
-            state["decision_required"]["summary"],
-            "Owner selection of future work; no checkpoint or later capability is preselected.",
-        )
-        self.assertEqual(state["decision_required"]["status"], "pending")
-        self.assertEqual(state["decision_required"]["evidence_refs"], [])
-        self.assertIn(
-            {
-                "id": "sahale-i1-publication",
-                "path": "docs/reviews/sahale-i1-root-identity-migration-evidence-2026-09-18.md",
-                "relation": "records_phase",
-                "commit": "995f1ae1fc6ed14ba4778688fabb96e994b65aa9",
-            },
-            state["evidence_links"],
-        )
-        self.assertEqual(state["blockers"], [])
-        self.assertEqual(state["unknowns"], [])
-        self.assertEqual(state["freshness"]["effective_date"], "2026-09-22")
-        self.assertIn(
-            {
-                "id": "school-learning-operational-loop-publication",
-                "path": "docs/reviews/school-learning-operational-loop-implementation-evidence-2026-08-30.md",
-                "relation": "supports_checkpoint",
-                "commit": "00805e67057fcd68e9ea465749a2c8a1df2cd7f7",
-            },
-            state["evidence_links"],
-        )
-        self.assertEqual(
-            state["authority"],
-            {
-                "task": "external-not-established-by-repository-or-atlas",
-                "implementation": "external-not-established-by-repository-or-atlas",
-                "publication": "external-not-established-by-repository-or-atlas",
-            },
-        )
-        mission = self.text["docs/current-mission.md"]
-        self.assertRegex(
-            mission,
-            r"SL2-A — School Learning v0\.2 Semester\s+Core & Intake is owner-accepted, published, and complete\.",
-        )
-        self.assertIn(
-            "SL2-A lifecycle: Owner-accepted, published, and complete; not active selected\n  work.", mission
-        )
-        self.assertNotIn("SL2-A lifecycle: Selected", mission)
-        self.assertNotIn("SL2-A is selected implementation work", mission)
-        self.assertRegex(mission, r"final\s+independent Tier-2 review with no BLOCKING, MATERIAL, or MINOR findings")
-        self.assertIn("School Learning Operational Loop lifecycle: Owner-accepted, published, and\n  complete at `00805e67057fcd68e9ea465749a2c8a1df2cd7f7`; not active selected\n  work.", mission)
-        self.assertIn("Owner selection of future work; no checkpoint or later capability is", mission)
-        self.assertIn("S1, F2, F3, SL2-B", mission)
-        self.assertIn("remain unselected", mission)
-        self.assertIn("Status: Intentional idle", mission)
-        self.assertRegex(mission, r"R2 — Sahale Repository Architecture Refresh is owner-accepted, published, and\s+complete at `b8d5b9ea0ccc7f6084c723f96a3c79382abf6d62`")
-        self.assertRegex(mission, r"I1 — Sahale Root Identity Migration is owner-accepted, published, and complete\s+at `995f1ae1fc6ed14ba4778688fabb96e994b65aa9`")
-        self.assertRegex(mission, r"No deployment, live-data\s+migration, Canvas/Gmail/Calendar integration, or operational-runtime state is\s+established\.")
-        self.assertIsNotNone(definition_for("docs/reviews/school-learning-v0-2-a-semester-core-intake-evidence-2026-08-26.md"))
-
-    def test_renamed_documents_and_evidence_are_registered(self) -> None:
-        infrastructure = infrastructure_documents()
-        self.assertIn("docs/infrastructure-virtualization.md", infrastructure)
-        self.assertNotIn("docs/infrastructure-gamer-pve.md", infrastructure)
-        self.assertEqual(
-            portfolio_evidence_documents(),
-            ["docs/reviews/repository-identity-r1-evidence-2026-08-02.md"],
-        )
-        self.assertIsNotNone(definition_for("docs/infrastructure-virtualization.md"))
-        self.assertIsNotNone(
-            definition_for(
-                "docs/reviews/repository-identity-r1-evidence-2026-08-02.md"
-            )
-        )
-        self.assertIsNotNone(
-            definition_for(
-                "docs/reviews/g14-storage-orientation-snapshot-implementation-evidence-2026-08-08.md"
-            )
-        )
-
-    def test_generated_ownership_matches_the_generator_input_graph(self) -> None:
-        snapshot_definition = definition_for("docs/infrastructure-snapshot.md")
-        self.assertIsNotNone(snapshot_definition)
-        assert snapshot_definition is not None
-        self.assertTrue(snapshot_definition.generated)
-        self.assertEqual(
-            snapshot_definition.generated_from,
-            [
-                "docs/infrastructure.md",
-                "docs/infrastructure-virtualization.md",
-                "docs/services.md",
-            ],
-        )
-        self.assertEqual(
-            snapshot_definition.managed_by,
-            "tools/generate-context.py",
-        )
-
-        self.assertTrue(self.text["docs/aiden-context.md"].startswith("# Sahale Context\n"))
-        self.assertIn("# Sahale Engineering State", self.text["tools/aiden-context-loader.py"])
+        self.assertEqual(len(state["evidence_links"]), 1)
+        self.assertNotIn("authority", state)
         generator = runpy.run_path(str(ROOT / "tools/generate-context.py"))
-        context_definition = definition_for("docs/aiden-context.md")
-        self.assertIsNotNone(context_definition)
-        assert context_definition is not None
-        generator_sources = list(generator["AIDEN_CONTEXT_GENERATED_FROM"])
-        self.assertEqual(context_definition.generated_from, generator_sources)
-        self.assertIn("docs/changes", generator_sources)
-        self.assertTrue(all((ROOT / path).exists() for path in generator_sources))
-
-        structured_change_paths = generator["structured_change_paths"]()
-        self.assertTrue(structured_change_paths)
-        self.assertEqual(
-            structured_change_paths,
-            sorted((ROOT / "docs/changes").glob("*.yml")),
+        self.assertEqual(generator["check_outputs"](), [])
+        self.assertIn("docs/changes", generator["AIDEN_CONTEXT_GENERATED_FROM"])
+        self.assertIn(
+            "# Sahale Context", self.text["docs/aiden-context.md"]
         )
-        source_graph = generator["render_source_graph"]()
-        self.assertIn("- docs/changes/ (`*.yml` structured records)", source_graph)
-        self.assertIn(source_graph, self.text["docs/aiden-context.md"])
-
-    def test_generated_date_is_deterministic_from_canonical_state(self) -> None:
-        state = json.loads(self.text["docs/current-state.json"])
-        expected = (
-            f"Generated: {state['freshness']['effective_date']} "
-            "(canonical-state effective date; deterministic)"
-        )
-        self.assertIn(expected, self.text["docs/aiden-context.md"])
 
     def test_active_r1_truth_is_separate_from_historical_candidate_chronology(
         self,
@@ -756,10 +628,6 @@ class PublicSurfaceTests(unittest.TestCase):
         )
         self.assertIsNotNone(docs_map_match)
         assert docs_map_match is not None
-
-        evidence_definition = definition_for(evidence_path)
-        self.assertIsNotNone(evidence_definition)
-        assert evidence_definition is not None
 
         evidence = self.text[evidence_path]
         final_heading = "## Final R1 Publication"
@@ -779,7 +647,6 @@ class PublicSurfaceTests(unittest.TestCase):
         active_surfaces = {
             "README active prose": self.text["README.md"],
             "R1 docs-map entry": docs_map_match.group("entry"),
-            "R1 document-definition purpose": evidence_definition.purpose,
             "R1 evidence active header/summary": active_header_summary,
             "R1 evidence final publication": final_publication,
         }
@@ -809,146 +676,28 @@ class PublicSurfaceTests(unittest.TestCase):
         )
 
 
-SELF_PRIVACY_DISPOSITIONS = {
-    (
-        "ip_literal",
-        "<module>",
-        98,
-        "b0d56c1d28390f7e4ece0ae355b30ebe8c8618788c2d769736a939a7e0bb4dd4",
-    ): 1,
-    (
-        "ip_literal",
-        "<module>",
-        99,
-        "4b2228c26597aecab7d5894eb1ec83d915bc2e1a75d758b3b53471ce6aa2c91c",
-    ): 1,
-    (
-        "ip_literal",
-        "<module>",
-        100,
-        "b6da1098e40c579e98e90db3586dbc51897b22b28133a30c45aa6f31a5f0b88e",
-    ): 1,
-    (
-        "ip_literal",
-        "<module>",
-        101,
-        "4fb0798e0eb02d5310d95142b51ddadf3d03fcd929382309589f573c0f923264",
-    ): 1,
-    (
-        "ip_literal",
-        "<module>",
-        102,
-        "5da4236dba69f926f858153f06d49edc73f54ce8cd226d7239d1948e663610e0",
-    ): 1,
-    (
-        "ip_literal",
-        "test_internal_url_classifier_uses_exact_boundaries",
-        452,
-        "25ecb11bfd4a7ea50ba30b45ce32bdb1d3c083445643f00a75d3e039a1f39133",
-    ): 1,
-    (
-        "ip_literal",
-        "test_internal_url_classifier_uses_exact_boundaries",
-        453,
-        "0622464c1cff74f0dc58479d1b5329cb5edc290e50377b38b42c36d528853b3d",
-    ): 1,
-    (
-        "ip_literal",
-        "test_internal_url_classifier_uses_exact_boundaries",
-        461,
-        "9fee1dbd126b61ad5eb62f3d8f5e212f23c9b2e198dc972306821b4b2b9df745",
-    ): 1,
-    (
-        "ip_literal",
-        "test_historical_disposition_cannot_hide_an_added_internal_url",
-        474,
-        "99e68e6fb6f98ae9bbcea0fb5d7c831c326653011c5092cfe5daf4357f555984",
-    ): 1,
-    (
-        "ip_literal",
-        "test_self_disposition_cannot_hide_a_new_match_in_the_same_test",
-        483,
-        "99e68e6fb6f98ae9bbcea0fb5d7c831c326653011c5092cfe5daf4357f555984",
-    ): 1,
-    (
-        "internal_url",
-        "test_internal_url_classifier_uses_exact_boundaries",
-        460,
-        "3973e8f72e6b3292d4e95be96157a236e5c9b7444a4987892cf1253ca1c970eb",
-    ): 1,
-    (
-        "internal_url",
-        "test_internal_url_classifier_uses_exact_boundaries",
-        461,
-        "e02f7a62bd538cff9e53b3bec05f5f740f1c3fd639751346c476f871fe13f97e",
-    ): 1,
-    (
-        "internal_url",
-        "test_internal_url_classifier_uses_exact_boundaries",
-        462,
-        "f9d411589dde0d9963506dcf7ae3ab6108c10cf5b7bf1ed96a764e89504d46fc",
-    ): 1,
-    (
-        "internal_url",
-        "test_historical_disposition_cannot_hide_an_added_internal_url",
-        469,
-        "746095370fe2a67aaaa7f2414f15f9abf9312655094bf9166a3cbd76150be34a",
-    ): 1,
-    (
-        "internal_url",
-        "test_historical_disposition_cannot_hide_an_added_internal_url",
-        474,
-        "f1243b397a9d95c04fcc3ff96cdd383f067d1999e6773c198ffa0ebcfc8fd5df",
-    ): 1,
-    (
-        "historical_host",
-        "<module>",
-        35,
-        "28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163",
-    ): 1,
-    (
-        "historical_host",
-        "<module>",
-        36,
-        "28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163",
-    ): 1,
-    (
-        "historical_host",
-        "<module>",
-        37,
-        "28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163",
-    ): 1,
-    (
-        "historical_host",
-        "<module>",
-        38,
-        "28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163",
-    ): 1,
-    (
-        "historical_host",
-        "<module>",
-        107,
-        "28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163",
-    ): 1,
-    (
-        "historical_host",
-        "<module>",
-        107,
-        "49b3511f5ae71e18fb91cdd08fba6916608c5ea654f59e478bc433c93b5056cf",
-    ): 1,
-    (
-        "historical_host",
-        "test_renamed_documents_and_evidence_are_registered",
-        682,
-        "28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163",
-    ): 1,
-    (
-        "legacy_identity",
-        "<module>",
-        22,
-        "25255e764a9dd3bac6f2a542ba33fff8d97ef7030a82e3a0c033d6abe43c28cb",
-    ): 1,
-}
+SELF_PRIVACY_DISPOSITIONS = {('historical_host', '<module>', 30, '28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163'): 1,
+ ('historical_host', '<module>', 31, '28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163'): 1,
+ ('historical_host', '<module>', 32, '28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163'): 1,
+ ('historical_host', '<module>', 33, '28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163'): 1,
+ ('historical_host', '<module>', 100, '28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163'): 1,
+ ('historical_host', '<module>', 100, '49b3511f5ae71e18fb91cdd08fba6916608c5ea654f59e478bc433c93b5056cf'): 1,
+ ('internal_url', 'test_historical_disposition_cannot_hide_an_added_internal_url', 462, '746095370fe2a67aaaa7f2414f15f9abf9312655094bf9166a3cbd76150be34a'): 1,
+ ('internal_url', 'test_historical_disposition_cannot_hide_an_added_internal_url', 467, 'f1243b397a9d95c04fcc3ff96cdd383f067d1999e6773c198ffa0ebcfc8fd5df'): 1,
+ ('internal_url', 'test_internal_url_classifier_uses_exact_boundaries', 453, '3973e8f72e6b3292d4e95be96157a236e5c9b7444a4987892cf1253ca1c970eb'): 1,
+ ('internal_url', 'test_internal_url_classifier_uses_exact_boundaries', 454, 'e02f7a62bd538cff9e53b3bec05f5f740f1c3fd639751346c476f871fe13f97e'): 1,
+ ('internal_url', 'test_internal_url_classifier_uses_exact_boundaries', 455, 'f9d411589dde0d9963506dcf7ae3ab6108c10cf5b7bf1ed96a764e89504d46fc'): 1,
+ ('ip_literal', '<module>', 91, 'b0d56c1d28390f7e4ece0ae355b30ebe8c8618788c2d769736a939a7e0bb4dd4'): 1,
+ ('ip_literal', '<module>', 92, '4b2228c26597aecab7d5894eb1ec83d915bc2e1a75d758b3b53471ce6aa2c91c'): 1,
+ ('ip_literal', '<module>', 93, 'b6da1098e40c579e98e90db3586dbc51897b22b28133a30c45aa6f31a5f0b88e'): 1,
+ ('ip_literal', '<module>', 94, '4fb0798e0eb02d5310d95142b51ddadf3d03fcd929382309589f573c0f923264'): 1,
+ ('ip_literal', '<module>', 95, '5da4236dba69f926f858153f06d49edc73f54ce8cd226d7239d1948e663610e0'): 1,
+ ('ip_literal', 'test_historical_disposition_cannot_hide_an_added_internal_url', 467, '99e68e6fb6f98ae9bbcea0fb5d7c831c326653011c5092cfe5daf4357f555984'): 1,
+ ('ip_literal', 'test_internal_url_classifier_uses_exact_boundaries', 445, '25ecb11bfd4a7ea50ba30b45ce32bdb1d3c083445643f00a75d3e039a1f39133'): 1,
+ ('ip_literal', 'test_internal_url_classifier_uses_exact_boundaries', 446, '0622464c1cff74f0dc58479d1b5329cb5edc290e50377b38b42c36d528853b3d'): 1,
+ ('ip_literal', 'test_internal_url_classifier_uses_exact_boundaries', 454, '9fee1dbd126b61ad5eb62f3d8f5e212f23c9b2e198dc972306821b4b2b9df745'): 1,
+ ('ip_literal', 'test_self_disposition_cannot_hide_a_new_match_in_the_same_test', 476, '99e68e6fb6f98ae9bbcea0fb5d7c831c326653011c5092cfe5daf4357f555984'): 1,
+ ('legacy_identity', '<module>', 17, '25255e764a9dd3bac6f2a542ba33fff8d97ef7030a82e3a0c033d6abe43c28cb'): 1}
 
 
 if __name__ == "__main__":

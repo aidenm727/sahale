@@ -1,5 +1,7 @@
 # Repository Object Architecture
 
+> Historical Atlas design. Its command, catalog, readiness, and reasoning descriptions are superseded by [Atlas Architecture](atlas.md). Repository objects and dated opportunity records remain historical data, not an active Atlas command contract.
+
 ## Purpose
 
 A Repository Object is a structured engineering entity stored in the repository.

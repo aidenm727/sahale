@@ -2,9 +2,7 @@ from pathlib import Path
 import re
 
 from atlas.platform.active_state import load_active_state
-from atlas.platform.reasoning.synchronization import (
-    render_generated_context_active_state,
-)
+from atlas.platform.mission import render_mission
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,6 +20,37 @@ AIDEN_CONTEXT_GENERATED_FROM = (
     "docs/infrastructure-snapshot.md",
     STRUCTURED_CHANGE_SOURCE_OWNER,
 )
+
+
+def render_generated_context_active_state(state) -> str:
+    checkpoint = state.work_selection.selected_checkpoint
+    decision = state.decision_required
+    evidence = "\n".join(
+        f"- `{link.id}`: `{link.path}` at `{link.commit}` ({link.relation})"
+        for link in state.evidence_links
+    ) or "- None"
+    return f"""## Canonical Active State
+
+- Schema version: {state.schema_version}
+- Effective date: {state.freshness.effective_date.isoformat()}
+- Phase: {state.phase.display_name}
+- Work selection: {state.work_selection.status}
+- Selected checkpoint: {checkpoint.name if checkpoint else 'None'}
+- Decision required: {decision.summary if decision else 'None'}
+
+### Blockers
+
+{chr(10).join('- ' + item.summary for item in state.blockers) or '- None'}
+
+### Unknowns
+
+{chr(10).join('- ' + item.summary for item in state.unknowns) or '- None'}
+
+### Evidence
+
+{evidence}
+
+Authority for every action remains with the owner under `AGENTS.md`."""
 
 
 def prepare_embedded_markdown(text: str) -> str:
@@ -72,8 +101,11 @@ It contains no live-state guarantee or exact private operations record.
 
 def structured_change_paths() -> list[Path]:
     changes_dir = ROOT / STRUCTURED_CHANGE_SOURCE_OWNER
-    if not changes_dir.exists():
-        return []
+    if changes_dir.is_symlink() or not changes_dir.is_dir():
+        raise OSError(
+            f"missing or unsafe required context source directory: "
+            f"{STRUCTURED_CHANGE_SOURCE_OWNER}"
+        )
     return sorted(changes_dir.glob(STRUCTURED_CHANGE_GLOB))
 
 
@@ -104,18 +136,13 @@ def render_source_graph() -> str:
     return "\n".join(lines)
 
 
-def generate_context() -> None:
+def expected_outputs() -> dict[str, str]:
     active_state = load_active_state(repository_root=ROOT)
     active_state_projection = render_generated_context_active_state(active_state)
-
-    mission = read_public_source("current-mission.md")
-
-    snapshot_path = DOCS / "infrastructure-snapshot.md"
-    snapshot_path.write_text(
-        build_infrastructure_snapshot().rstrip() + "\n",
-        encoding="utf-8",
-    )
-    snapshot = prepare_embedded_markdown(snapshot_path.read_text(encoding="utf-8"))
+    mission_text = render_mission(active_state)
+    mission = prepare_embedded_markdown(mission_text)
+    snapshot_text = build_infrastructure_snapshot().rstrip() + "\n"
+    snapshot = prepare_embedded_markdown(snapshot_text)
     recent_changes = "\n".join(load_recent_changes())
     source_graph = render_source_graph()
     generated_date = active_state.freshness.effective_date.isoformat()
@@ -163,12 +190,45 @@ sources. Git history records repository evolution but is not a generator input.
 - Exact private operations, secrets, credentials, and personal School Learning data are excluded.
 """
 
-    (DOCS / "aiden-context.md").write_text(
-        output.rstrip() + "\n",
-        encoding="utf-8",
-    )
+    return {
+        "current-mission.md": mission_text,
+        "infrastructure-snapshot.md": snapshot_text,
+        "aiden-context.md": output.rstrip() + "\n",
+    }
+
+
+def check_outputs() -> list[str]:
+    return [
+        name for name, expected in expected_outputs().items()
+        if (DOCS / name).is_symlink()
+        or not (DOCS / name).is_file()
+        or (DOCS / name).read_text(encoding="utf-8") != expected
+    ]
+
+
+def generate_context() -> None:
+    outputs = expected_outputs()
+    if any((DOCS / name).is_symlink() for name in outputs):
+        raise OSError("refusing to write through a generated-output symlink")
+    for name, content in outputs.items():
+        (DOCS / name).write_text(content, encoding="utf-8")
 
 
 if __name__ == "__main__":
-    generate_context()
-    print("Generated docs/aiden-context.md")
+    import sys
+
+    if sys.argv[1:] == ["--check"]:
+        try:
+            drift = check_outputs()
+        except OSError as error:
+            raise SystemExit(f"Context check failed: {error}") from error
+        for name in drift:
+            print(f"Drift: docs/{name}")
+        raise SystemExit(1 if drift else 0)
+    if sys.argv[1:]:
+        raise SystemExit("usage: generate-context.py [--check]")
+    try:
+        generate_context()
+    except OSError as error:
+        raise SystemExit(f"Context generation failed: {error}") from error
+    print("Generated docs/current-mission.md, docs/infrastructure-snapshot.md, docs/aiden-context.md")

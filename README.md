@@ -108,11 +108,11 @@ service.
 
 ### Atlas and Workflow v1.2
 
-Atlas turns registered repository facts into deterministic inspection,
-validation, synchronization, review, and next-action reports. The
+Atlas checks typed repository state, local evidence identity, Git observations,
+and generated-output drift. The
 [canonical state](docs/current-state.json),
 [collaboration standard](docs/standards/engineering-collaboration.md),
-[readiness tests](tests/test_atlas_readiness.py), and
+[Atlas tests](tests/test_atlas.py), and
 [W2 evidence](docs/reviews/engineering-workflow-v1-2-evidence-2026-09-16.md)
 show how typed state remains separate from owner authority.
 
@@ -144,19 +144,17 @@ From the repository root in the current checkout:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 ./atlas bootstrap
+PYTHONDONTWRITEBYTECODE=1 ./atlas validate
+PYTHONDONTWRITEBYTECODE=1 ./atlas sync
 PYTHONDONTWRITEBYTECODE=1 ./school --help
 PYTHONPATH=tools PYTHONDONTWRITEBYTECODE=1 \
   python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
-`./atlas bootstrap` inspects repository state; it does not authorize work.
-School Learning keeps personal data outside Git. Before I1 cutover, the public clone remains:
-
-```bash
-git clone https://github.com/aidenm727/aiden-platform.git
-```
-
-After the separately authorized and verified cutover, the canonical clone target is:
+`./atlas bootstrap` reports local observations; it does not authorize work.
+`tools/generate-context.py` regenerates the mission view and the two context
+artifacts. School Learning keeps personal data outside Git. The canonical clone
+target is:
 
 ```bash
 git clone https://github.com/aidenm727/sahale.git
@@ -193,20 +191,10 @@ extraction, restricted operational source, and migrations remain future work.
 Local AI, broader knowledge sovereignty, additional recovery proof, and an
 automatic coordination runtime are also future or conditional work.
 
-The [canonical state](docs/current-state.json) records R2 — Sahale Repository
-Architecture Refresh as owner-accepted, published, and complete at
-`b8d5b9ea0ccc7f6084c723f96a3c79382abf6d62`. I1 — Sahale Root Identity
-Migration is selected for local implementation only. Its compiler canonical
-identity is `github.com/aidenm727/sahale`; both former origin families remain
-compatible. GitHub remains `aidenm727/aiden-platform` and the checkout has not
-moved. Candidate acceptance, commit, publication, and external/application
-cutover remain pending. Schemas, protocols, environment variables, persisted
-data, historical evidence, and the generated context filename are unchanged.
-
-Repository-identity R1 remains owner-accepted, published, and complete at
-`483f1111257c9b1608c100cb88c8304a17d85314`. C1 is the owner-confirmed published
-baseline for R2. [Current Mission](docs/current-mission.md) records the detailed
-lifecycle and current boundary; S1, F2, F3, and other future work are unselected.
+The [canonical state](docs/current-state.json) records I1 — Sahale Root Identity
+Migration as published and selects intentional idle. The [generated current
+view](docs/current-mission.md) presents that state for humans. Dated evidence
+and Git history retain completed R1, R2, I1, and earlier lifecycle details.
 
 Sahale grew from the earlier Aiden Platform and a ThinkPad T430 homelab. Current
 delivered capability centers on School Learning, Atlas/Workflow v1.2,

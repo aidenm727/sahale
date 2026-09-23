@@ -8,7 +8,7 @@ Architecture owns durable design.
 
 This roadmap owns strategic timing and priority.
 
-Typed active state and its Current Mission companion describe this repository's
+Typed active state and its generated Current Mission view describe this repository's
 engineering state, not all Platform activity. They grant no action authority.
 
 ---

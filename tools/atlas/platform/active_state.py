@@ -12,7 +12,6 @@ from typing import Any
 
 MAX_ACTIVE_STATE_BYTES = 16_384
 SUPPORTED_SCHEMA_VERSION = 1
-AUTHORITY_SENTINEL = "external-not-established-by-repository-or-atlas"
 
 _IDENTIFIER_PATTERN = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\Z")
 _COMMIT_PATTERN = re.compile(r"[0-9a-f]{40}\Z")
@@ -106,13 +105,6 @@ class Freshness:
 
 
 @dataclass(frozen=True)
-class Authority:
-    task: str
-    implementation: str
-    publication: str
-
-
-@dataclass(frozen=True)
 class ActiveState:
     schema_version: int
     phase: Phase
@@ -122,7 +114,6 @@ class ActiveState:
     decision_required: DecisionRequired | None
     evidence_links: tuple[EvidenceLink, ...]
     freshness: Freshness
-    authority: Authority
 
 
 def active_state_path(repository_root: Path) -> Path:
@@ -490,26 +481,6 @@ def _parse_freshness(value: Any) -> Freshness:
     )
 
 
-def _parse_authority(value: Any) -> Authority:
-    obj = _object(
-        value,
-        location="authority",
-        keys=frozenset({"task", "implementation", "publication"}),
-    )
-    parsed: dict[str, str] = {}
-    for dimension in ("task", "implementation", "publication"):
-        sentinel = _string(
-            obj[dimension], location=f"authority.{dimension}", maximum=64
-        )
-        if sentinel != AUTHORITY_SENTINEL:
-            raise ActiveStateError(
-                f"authority.{dimension} must be the fixed non-authority sentinel "
-                f"{AUTHORITY_SENTINEL!r}"
-            )
-        parsed[dimension] = sentinel
-    return Authority(**parsed)
-
-
 def _validate_repository_relative_file(repository_root: Path, path: str) -> None:
     if "\\" in path:
         raise ActiveStateError(
@@ -678,6 +649,16 @@ def _validate_cross_fields(
             evidence_by_id=evidence_by_id,
         )
 
+    active_refs = set(state.phase.evidence_refs)
+    if checkpoint is not None:
+        active_refs.update(checkpoint.evidence_refs)
+    for concern in (*state.blockers, *state.unknowns):
+        active_refs.update(concern.evidence_refs)
+    if state.decision_required is not None:
+        active_refs.update(state.decision_required.evidence_refs)
+    if active_refs != set(evidence_by_id):
+        raise ActiveStateError("evidence_links must contain only active references")
+
     if state.phase.effective_date > state.freshness.effective_date:
         raise ActiveStateError(
             "phase effective date must not follow state freshness effective date"
@@ -708,7 +689,6 @@ def parse_active_state_bytes(
                 "decision_required",
                 "evidence_links",
                 "freshness",
-                "authority",
             }
         ),
     )
@@ -730,7 +710,6 @@ def parse_active_state_bytes(
         decision_required=_parse_decision(raw["decision_required"]),
         evidence_links=_parse_evidence_links(raw["evidence_links"]),
         freshness=_parse_freshness(raw["freshness"]),
-        authority=_parse_authority(raw["authority"]),
     )
     _validate_cross_fields(
         state,
@@ -782,12 +761,10 @@ def load_active_state(
 
 
 __all__ = [
-    "AUTHORITY_SENTINEL",
     "MAX_ACTIVE_STATE_BYTES",
     "SUPPORTED_SCHEMA_VERSION",
     "ActiveState",
     "ActiveStateError",
-    "Authority",
     "DecisionRequired",
     "EvidenceLink",
     "Freshness",

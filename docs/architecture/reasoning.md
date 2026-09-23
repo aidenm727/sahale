@@ -1,5 +1,7 @@
 # Repository Reasoning Architecture
 
+> Historical Atlas design. Its command, catalog, readiness, and reasoning descriptions are superseded by [Atlas Architecture](atlas.md). Repository objects and dated opportunity records remain historical data, not an active Atlas command contract.
+
 ## Purpose
 
 Repository Reasoning is the platform capability responsible for transforming repository knowledge into deterministic engineering understanding.

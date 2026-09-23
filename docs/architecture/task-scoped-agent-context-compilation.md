@@ -38,6 +38,11 @@ selector, selection, materialization, compilation, and validation tests.
 The informative package later in this document remains a truthful historical
 manual example for its pinned commit. It is not relabeled as compiler output.
 No general `atlas context` command or production runtime is claimed.
+The pinned first-slice example below describes a historical snapshot where
+Current Mission was canonical. `docs/current-state.json` now owns active state,
+and `docs/current-mission.md` is generated. The library has no current runtime
+consumer; a future Ctx0 integration must reconcile that historical mission
+rule with the current source ownership before using it against a live checkout.
 
 ## Core Principle
 

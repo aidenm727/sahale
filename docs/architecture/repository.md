@@ -122,10 +122,10 @@ Current owner:
 
 `docs/current-state.json` is the strict typed owner of this repository's effective active state:
 phase, selected work or intentional idle, blockers, unknowns, pending owner
-decision, evidence links, freshness, and fixed external-authority sentinels.
+decision, active evidence links, and freshness.
 
-`docs/current-mission.md` is its short canonical human-readable companion.
-Machine-readable state wins on conflict, and missing or invalid typed state
+`docs/current-mission.md` is its short generated human-readable view.
+The generator reads typed state, and missing or invalid typed state
 fails closed. These records and Atlas describe their declared repository scope,
 not a universal ledger of Platform or domain activity. They grant no task,
 implementation, publication, deployment, or external-write authority.
@@ -194,10 +194,11 @@ Generated files summarize canonical records but do not replace them.
 
 Examples:
 
+- `docs/current-mission.md`
 - `docs/aiden-context.md`
 - `docs/infrastructure-snapshot.md`
 
-Generated artifacts must declare their sources, managing tool, and generated status.
+The output and source registration lives in `tools/generate-context.py`.
 `docs/aiden-context.md` retains its compatibility filename and generator-owned
 Sahale heading. `AIDEN_CONTEXT_GENERATED_FROM` remains a stable generator
 symbol. No duplicate context file or alias is introduced.
@@ -260,7 +261,7 @@ The hierarchy is:
 2. Architecture records describe intent and structural design.
 3. Standards records describe expected engineering behavior.
 4. Canonical Active State defines the effective phase and selected work.
-5. Current Mission explains that state and concise current intent for humans.
+5. The generated Current Mission view presents that state for humans.
 6. Infrastructure records describe documented implementation and state.
 7. Operations records describe change evidence and history.
 8. Roadmaps describe likely future direction and sequencing.
@@ -293,7 +294,7 @@ generated context, historical records, and roadmaps do not grant permission.
 - The repeatable manual knowledge-promotion workflow belongs in `docs/knowledge-promotion.md`.
 - Strategic sequencing belongs in `docs/roadmaps/platform-strategy.md`.
 - This repository's typed active phase and work selection belong in `docs/current-state.json`.
-- Concise human-readable current intent belongs in `docs/current-mission.md`.
+- The concise human-readable view of current state is generated at `docs/current-mission.md`.
 - Repository-local authority interpretation belongs in `AGENTS.md`.
 - Public-safe infrastructure patterns and dated evidence belong in
   infrastructure records; live systems own current reality.
@@ -306,20 +307,13 @@ Reference the canonical owner instead of duplicating full content.
 
 ---
 
-## Document Registration
+## Document Navigation
 
-New canonical documents should be integrated through:
-
-1. Creation.
-2. Repository Architecture registration.
-3. Documentation Map registration.
-4. Atlas document definition or repository metadata.
-5. Validation.
-6. Repository Synchronization Reasoning.
-7. Engineering Review.
-8. Commit and push.
-
-Human judgment decides whether a document should exist.
+Add a new canonical document to `docs/docs-map.md` when it helps readers find
+the owner. Register generated output in its generator only when a real consumer
+needs a drift check. Atlas does not require a definition for every document.
+Human judgment decides whether a document should exist. Publication remains a
+separate owner decision under `AGENTS.md`.
 
 ---
 

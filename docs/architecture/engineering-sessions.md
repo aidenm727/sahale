@@ -21,7 +21,7 @@ Every engineering session should start from a shared, deterministic understandin
 Before implementation begins, the session should establish:
 
 - current repository state
-- canonical active state and its Current Mission companion
+- canonical active state and its generated Current Mission view
 - relevant architecture
 - Atlas validation status
 - engineering environment readiness
@@ -45,7 +45,7 @@ A session should prefer repository knowledge in this order:
 
 1. Architecture
 2. Canonical active state
-3. Current Mission companion
+3. Generated Current Mission view
 4. Infrastructure records
 5. Operations records
 6. Roadmaps
@@ -64,16 +64,15 @@ state.
 
 # Relationship to Atlas
 
-Atlas is the deterministic engineering interface for beginning and guiding engineering sessions.
+Atlas is a small deterministic repository checker used at session startup and after changes.
 
-The implemented startup and inspection interface reports repository metadata
-validity, typed active state and mission context, relevant architecture,
-generated synchronization, documentation gaps, and recommended next action
-within this repository. Active state, its mission companion, lifecycle records,
+The implemented interface reports local Git observations, validates typed state
+and exact evidence identity, and checks the three registered generated outputs.
+Active state, its generated view, lifecycle records,
 and Atlas output are not a universal ledger of Platform or domain activity.
 
 Native execution-environment readiness still requires the human/agent
-preflight below. Repository health and Atlas guidance do not establish it.
+preflight below. Repository health and Atlas output do not establish it.
 
 The current repository-local Atlas invocation is:
 
@@ -83,14 +82,12 @@ The current canonical startup command is:
 
     ./atlas bootstrap
 
-This command establishes deterministic repository observations and the shared
-readiness projection. It does not establish task, implementation, publication,
+This command reports local Git observations, typed state, validation, and
+generated-output drift. It does not establish task, implementation, publication,
 deployment, or external-write authority.
 
-Supporting startup commands include:
+The other commands are:
 
-    ./atlas review
-    ./atlas next
     ./atlas validate
     ./atlas sync
 
@@ -105,9 +102,8 @@ root:
 - local ahead/behind divergence when tracking evidence exists;
 - full porcelain status including staged, unstaged, and untracked paths;
 - staged and unstaged name-status and `git diff --check` results;
-- `./atlas bootstrap`, state, validation, missing-definition,
-  synchronization, review, and next-action observations as relevant; and
-- canonical active state plus its Current Mission companion.
+- `./atlas bootstrap`, `./atlas validate`, and `./atlas sync`; and
+- canonical active state plus its generated Current Mission view.
 
 Treat remote-tracking refs as local observations. Do not fetch, contact a host,
 or mutate a ref merely to make the baseline fresh. Preserve unrelated user
@@ -155,12 +151,6 @@ command in the brief. A generic preflight helper is not the default; repeated
 stable evidence from at least two real checkpoints is required before proposing
 automation.
 
-Future Atlas work may expand bootstrap behavior with a dedicated interactive session command such as:
-
-    ./atlas session
-
-Such commands should remain thin interfaces over reusable repository knowledge and reasoning capabilities.
-
 ---
 
 # Session Startup Flow
@@ -188,8 +178,8 @@ Confirm the repository is structurally usable before making changes.
 Examples:
 
 - Atlas validation
-- metadata completeness
-- generated artifact ownership
+- exact evidence identity
+- registered generated-output drift
 - required architecture documents
 
 ## 3. Orient
@@ -284,10 +274,9 @@ Structured knowledge about repository entities.
 
 Examples:
 
-- document metadata
-- canonical versus generated files
-- document relationships
-- capability ownership
+- typed active state
+- registered generated outputs
+- source ownership documented by canonical architecture
 
 ## Engineering State
 
@@ -334,10 +323,9 @@ Its responsibility is to define how engineering work should begin and how sessio
 
 # Future Direction
 
-Future Atlas capabilities should make session startup increasingly automatic.
+Future automation requires a demonstrated deterministic failure mode and a concrete consumer.
 
-The current bootstrap, state, validation, synchronization, missing-definition,
-review, and next-action interfaces already provide the bounded repository
+Bootstrap, validation, and synchronization provide the bounded repository
 inspection baseline. Generated context and the bounded task-context compilation
 library also exist under their canonical owners.
 
