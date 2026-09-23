@@ -26,7 +26,6 @@ ROADMAP_DOCS = [
 
 TOOL_FILES = [
     "tools/generate-context.py",
-    "tools/homelab-change.py",
     "tools/aiden-context-loader.py",
 ]
 
@@ -62,43 +61,6 @@ def git_status() -> str:
     return output if output else "Clean"
 
 
-def active_change_session() -> str:
-    path = DOCS / "change-session.md"
-
-    if not path.exists():
-        return "No change-session.md found."
-
-    text = path.read_text(encoding="utf-8")
-
-    title = "Unknown"
-    change_type = "Unknown"
-
-    lines = text.splitlines()
-
-    for index, line in enumerate(lines):
-        if line.strip() == "## Change Title" and index + 2 < len(lines):
-            title = lines[index + 2].strip()
-        if line.strip() == "## Change Type" and index + 2 < len(lines):
-            change_type = lines[index + 2].strip()
-
-    return f"{title} ({change_type})"
-
-
-def recent_changes(limit: int = 5) -> list[str]:
-    changes_dir = DOCS / "changes"
-
-    if not changes_dir.exists():
-        return ["No structured change records found."]
-
-    records = sorted(
-        changes_dir.glob("*.yml"),
-        key=lambda path: path.stat().st_mtime,
-        reverse=True,
-    )
-
-    return [path.stem for path in records[:limit]] or ["No structured change records found."]
-
-
 def print_checklist(title: str, files: list[str]) -> None:
     print(f"\n{title}")
     print("-" * len(title))
@@ -116,15 +78,6 @@ def main() -> None:
     print("----------")
     print(git_status())
 
-    print("\nActive Change Session")
-    print("---------------------")
-    print(active_change_session())
-
-    print("\nRecent Changes")
-    print("--------------")
-    for change in recent_changes():
-        print(f"- {change}")
-
     print_checklist("Architecture Documents", ARCHITECTURE_DOCS)
     print_checklist("Context Documents", CONTEXT_DOCS)
     print_checklist("Roadmaps", ROADMAP_DOCS)
@@ -135,7 +88,7 @@ def main() -> None:
     if git_status() != "Clean":
         print("Review and commit or discard current working tree changes.")
     else:
-        print("Continue the active change session or finish it with homelab-change.py.")
+        print("Review the canonical current state and select work with the owner.")
 
 
 if __name__ == "__main__":

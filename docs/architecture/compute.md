@@ -14,21 +14,12 @@ Place workloads by stability, isolation, resource, recovery, and migration
 needs rather than by installation convenience. Public documentation describes
 roles and constraints, not reachability.
 
-## Compute Roles
+## Infrastructure Placement
 
-### Core-Services Environment
-
-A resource-constrained, steady-state environment may host foundational network,
-ingress, observability, backup-coordination, and selected owner services. Dated
-evidence belongs in [the infrastructure record](../infrastructure.md); current
-operation requires fresh observation.
-
-### Virtualization Environment
-
-A more flexible environment may host VMs, LXCs, isolated application stacks,
-and resource-intensive experiments. Local primary capacity does not substitute
-for independent backup. See the [public-safe virtualization
-record](../infrastructure-virtualization.md).
+Homelab owns its core-services and virtualization role design and dated
+deployment evidence in the [planned public engineering repository](https://github.com/aidenm727/homelab)
+(local H1 candidate; publication pending). This Sahale policy does not claim
+current operation; fresh authorized observation owns runtime reality.
 
 ### Storage Environment
 

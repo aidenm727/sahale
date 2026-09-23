@@ -229,7 +229,8 @@ Execution location does not determine capability ownership. A Sahale-owned
 context service running on Homelab infrastructure remains a Sahale capability.
 `docs/architecture/repository.md` owns the first accepted specialized-repository
 boundary and the distinct public, restricted, live, and secret source placement.
-No Homelab repository creation or migration is implied.
+A local H1 extraction candidate is prepared; public repository creation and
+cutover require separate owner authorization.
 
 ---
 

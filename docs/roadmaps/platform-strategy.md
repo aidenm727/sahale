@@ -28,12 +28,13 @@ software, external capabilities, continued manual use, and ending an experiment
 remain valid outcomes.
 
 `docs/architecture/repository.md` owns selective specialized-repository
-boundaries. Homelab is the first accepted candidate; extraction, migration, and
-repository creation remain separately designed and authorized future work.
+boundaries. Homelab is the first accepted candidate; a local H1 extraction
+candidate is prepared, while repository creation and publication remain
+separately authorized future work.
 Restricted non-secret desired operational state also requires a concrete
 durable artifact and a separately designed source. Atlas remains local to
-this root repository, whose accepted I1 target is `sahale`. External cutover
-is pending; identity migration precedes Homelab extraction.
+this root repository. The I1 identity migration to `sahale` is published; the
+Homelab public cutover remains pending.
 
 AI/tool selection evolves through the advisory maturity path owned by
 `docs/architecture/ai-operating-model.md`. This direction creates no evaluation

@@ -111,25 +111,21 @@ vocabulary. Atlas no longer assesses or selects opportunities.
 
 ## Infrastructure
 
-- `docs/infrastructure.md`
-- `docs/infrastructure-virtualization.md`
-- `docs/services.md`
-- `docs/infrastructure-snapshot.md`
+- [Homelab public engineering](https://github.com/aidenm727/homelab) — planned
+  specialized owner; local H1 candidate prepared, publication pending.
+- `docs/infrastructure-snapshot.md` — generated bounded reference retained for
+  Sahale context consumers.
 
-These public owners contain role-based patterns and dated, non-continuous
-evidence. Repository Architecture owns the accepted Homelab specialized boundary
-and the requirement to separately design a restricted source for exact
-non-secret desired state when a concrete durable operational artifact is
-identified. No extraction or migration is implied. Live systems and fresh
-observation own current reality; secret values never belong in Git.
+Homelab's candidate owns public infrastructure patterns and selected dated
+evidence. Repository Architecture owns the source boundary. Live systems and
+fresh observation own current reality; secret values never belong in Git.
 
 ## Operations
 
 - `docs/knowledge-promotion.md` — Canonical human-applied procedure for reviewing candidate findings and deliberately promoting accepted knowledge.
-- `docs/change-session.md`
-- `docs/change-schema.md`
-- `docs/changes.log`
-- `docs/changes/*.yml`
+- `docs/change-session.md`, `docs/change-schema.md`, and `docs/changes.log`
+  — historical records of the retired Homelab change workflow.
+- `docs/changes/*.yml` — Sahale repository evolution history.
 
 ## Roadmaps
 

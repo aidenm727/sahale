@@ -25,11 +25,11 @@ This is selective, not one repository per capability or domain. Root Platform
 architecture and cross-domain contracts remain here; a specialized repository
 owns only its designated project or system engineering scope.
 
-Homelab is the first accepted specialized-repository candidate and boundary,
-based on the owner's current evidence outside this repository together with
-repository evidence. The September 2026 recalibration accepts that boundary;
-it does not create a repository, extract or migrate Homelab material, or claim
-that external evidence was independently inspected in this checkpoint.
+Homelab is the first accepted specialized-repository boundary. The local H1
+candidate assigns public-safe topology, virtualization, network/service and
+storage/recovery engineering, Homelab-specific tooling, and selected dated
+evidence to Homelab. Publication and external cutover remain pending. The
+candidate does not claim that live systems or external evidence were inspected.
 
 The Homelab workspace, source/engineering domain, and execution environment
 are distinct roles under `docs/architecture/platform.md`. Hosting a Sahale
@@ -44,16 +44,12 @@ to task-context compilation.
 Sahale is the human-facing platform identity. It is broader than this repository,
 ChatGPT, Homelab, or any execution environment. Presentation identity does not
 rename machine, schema, compatibility, persisted-data, or historical identities.
-I1 is a local implementation candidate. The observed origin still names
-`aidenm727/aiden-platform`; the checkout remains `~/src/t430-homelab`.
-The accepted cutover targets are `aidenm727/sahale` and `~/src/sahale`.
-GitHub rename, publication, checkout movement, and application updates are
-pending separate authority and fresh external verification.
+I1 is published as `aidenm727/sahale` with checkout `~/src/sahale`. Former
+repository and checkout names below are historical compatibility locators.
 
-The local candidate canonical compiler identity is
-`github.com/aidenm727/sahale`. The accepted future public clone target is
-`https://github.com/aidenm727/sahale.git`; until cutover, the observed public
-repository remains `aidenm727/aiden-platform`.
+The canonical compiler identity is
+`github.com/aidenm727/sahale`. The public clone target is
+`https://github.com/aidenm727/sahale.git`.
 
 Supported current-origin locator forms are SCP-style SSH, `ssh://`, and HTTPS
 with or without `.git`. The equivalent `aidenm727/aiden-platform` and `aidenm727/t430-homelab` forms are
@@ -132,25 +128,23 @@ implementation, publication, deployment, or external-write authority.
 
 ### Infrastructure
 
-Describes public-safe infrastructure patterns and dated operational evidence.
-
-- `docs/infrastructure.md`
-- `docs/infrastructure-virtualization.md`
-- `docs/services.md`
-- `docs/infrastructure-snapshot.md` as a generated summary
+Sahale owns shared compute and execution policy in `docs/architecture/compute.md`.
+The planned [Homelab public engineering repository](https://github.com/aidenm727/homelab)
+owns infrastructure patterns and selected dated evidence in the local H1
+candidate; publication is pending. `docs/infrastructure-snapshot.md` remains a
+generated bounded reference for Sahale context consumers.
 
 These documents do not own exact live state or prove continuous availability.
 Live systems and fresh observation own current operational reality.
 
 ### Operations
 
-Preserve active workflow and history.
+Preserve Sahale operations and historical workflow evidence.
 
 - `docs/knowledge-promotion.md` as the repeatable manual Canonical Knowledge Promotion operating procedure
-- `docs/change-session.md`
-- `docs/change-schema.md`
-- `docs/changes.log`
-- `docs/changes/*.yml`
+- `docs/change-session.md`, `docs/change-schema.md`, and `docs/changes.log`
+  as historical change-workflow records
+- `docs/changes/*.yml` as Sahale repository evolution history
 
 Knowledge Authority Architecture owns promotion principles and authority requirements. `docs/knowledge-promotion.md` owns the repeatable manual workflow that applies those requirements, preserving the distinction between architecture intent and operational procedure.
 
@@ -208,8 +202,9 @@ symbol. No duplicate context file or alias is introduced.
 ## Public and Private Ownership
 
 Within its assigned scope, the public root repository owns vision, architecture,
-standards, code, tests, public repository state, sanitized infrastructure
-patterns, and dated public evidence.
+standards, code, tests, public repository state, and Sahale-dated evidence.
+Homelab's local H1 candidate owns public Homelab engineering and its selected
+dated evidence; its public repository is not yet created.
 
 Exact non-secret Homelab desired operational state is accepted as deserving a
 separately designed restricted canonical source when a concrete durable
@@ -229,7 +224,7 @@ manager or protected operational storage and never in either Git repository.
 Current live reality belongs to live systems and fresh observation. GitHub
 metadata and settings belong to GitHub and require authorized observation.
 
-Public infrastructure records follow these rules:
+Public Homelab infrastructure records follow these rules:
 
 1. Use role aliases rather than real host or network identities.
 2. Describe capabilities and trust boundaries rather than reachability.

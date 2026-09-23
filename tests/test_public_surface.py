@@ -31,6 +31,14 @@ EXPECTED_REMOVALS = (
     "docs/changes/2026-06-24-add-gamer-pve-node-monitoring.yml",
     "docs/changes/2026-06-24-add-tailscale-remote-management-for-gamer-pve.yml",
     "docs/changes/2026-06-24-deploy-immich-on-gamer-pve.yml",
+    "docs/infrastructure.md",
+    "docs/infrastructure-virtualization.md",
+    "docs/services.md",
+    "tools/homelab-change.py",
+    "docs/changes/2026-06-23-add-nvme-proxmox-storage-pool.yml",
+    "docs/changes/2026-06-24-add-tailscale-remote-management-for-virtualization-host.yml",
+    "docs/changes/2026-06-24-add-virtualization-host-node-monitoring.yml",
+    "docs/changes/2026-06-24-deploy-immich-on-virtualization-host.yml",
 )
 
 OLD_IDENTITY_ALLOWLIST = frozenset(
@@ -114,9 +122,6 @@ ABSOLUTE_OPERATIONAL_PATH_PATTERN = re.compile(
 
 PUBLIC_OPERATIONAL_OWNERS = (
     "README.md",
-    "docs/infrastructure.md",
-    "docs/infrastructure-virtualization.md",
-    "docs/services.md",
     "docs/infrastructure-snapshot.md",
     "docs/aiden-context.md",
     "docs/architecture/compute.md",
@@ -610,7 +615,8 @@ class PublicSurfaceTests(unittest.TestCase):
         self.assertNotIn("authority", state)
         generator = runpy.run_path(str(ROOT / "tools/generate-context.py"))
         self.assertEqual(generator["check_outputs"](), [])
-        self.assertIn("docs/changes", generator["AIDEN_CONTEXT_GENERATED_FROM"])
+        self.assertNotIn("docs/changes", generator["AIDEN_CONTEXT_GENERATED_FROM"])
+        self.assertIn("https://github.com/aidenm727/homelab", self.text["docs/infrastructure-snapshot.md"])
         self.assertIn(
             "# Sahale Context", self.text["docs/aiden-context.md"]
         )
@@ -680,23 +686,23 @@ SELF_PRIVACY_DISPOSITIONS = {('historical_host', '<module>', 30, '28417f2fb39f8b
  ('historical_host', '<module>', 31, '28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163'): 1,
  ('historical_host', '<module>', 32, '28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163'): 1,
  ('historical_host', '<module>', 33, '28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163'): 1,
- ('historical_host', '<module>', 100, '28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163'): 1,
- ('historical_host', '<module>', 100, '49b3511f5ae71e18fb91cdd08fba6916608c5ea654f59e478bc433c93b5056cf'): 1,
- ('internal_url', 'test_historical_disposition_cannot_hide_an_added_internal_url', 462, '746095370fe2a67aaaa7f2414f15f9abf9312655094bf9166a3cbd76150be34a'): 1,
- ('internal_url', 'test_historical_disposition_cannot_hide_an_added_internal_url', 467, 'f1243b397a9d95c04fcc3ff96cdd383f067d1999e6773c198ffa0ebcfc8fd5df'): 1,
- ('internal_url', 'test_internal_url_classifier_uses_exact_boundaries', 453, '3973e8f72e6b3292d4e95be96157a236e5c9b7444a4987892cf1253ca1c970eb'): 1,
- ('internal_url', 'test_internal_url_classifier_uses_exact_boundaries', 454, 'e02f7a62bd538cff9e53b3bec05f5f740f1c3fd639751346c476f871fe13f97e'): 1,
- ('internal_url', 'test_internal_url_classifier_uses_exact_boundaries', 455, 'f9d411589dde0d9963506dcf7ae3ab6108c10cf5b7bf1ed96a764e89504d46fc'): 1,
- ('ip_literal', '<module>', 91, 'b0d56c1d28390f7e4ece0ae355b30ebe8c8618788c2d769736a939a7e0bb4dd4'): 1,
- ('ip_literal', '<module>', 92, '4b2228c26597aecab7d5894eb1ec83d915bc2e1a75d758b3b53471ce6aa2c91c'): 1,
- ('ip_literal', '<module>', 93, 'b6da1098e40c579e98e90db3586dbc51897b22b28133a30c45aa6f31a5f0b88e'): 1,
- ('ip_literal', '<module>', 94, '4fb0798e0eb02d5310d95142b51ddadf3d03fcd929382309589f573c0f923264'): 1,
- ('ip_literal', '<module>', 95, '5da4236dba69f926f858153f06d49edc73f54ce8cd226d7239d1948e663610e0'): 1,
- ('ip_literal', 'test_historical_disposition_cannot_hide_an_added_internal_url', 467, '99e68e6fb6f98ae9bbcea0fb5d7c831c326653011c5092cfe5daf4357f555984'): 1,
- ('ip_literal', 'test_internal_url_classifier_uses_exact_boundaries', 445, '25ecb11bfd4a7ea50ba30b45ce32bdb1d3c083445643f00a75d3e039a1f39133'): 1,
- ('ip_literal', 'test_internal_url_classifier_uses_exact_boundaries', 446, '0622464c1cff74f0dc58479d1b5329cb5edc290e50377b38b42c36d528853b3d'): 1,
- ('ip_literal', 'test_internal_url_classifier_uses_exact_boundaries', 454, '9fee1dbd126b61ad5eb62f3d8f5e212f23c9b2e198dc972306821b4b2b9df745'): 1,
- ('ip_literal', 'test_self_disposition_cannot_hide_a_new_match_in_the_same_test', 476, '99e68e6fb6f98ae9bbcea0fb5d7c831c326653011c5092cfe5daf4357f555984'): 1,
+ ('historical_host', '<module>', 108, '28417f2fb39f8b22a594692ee92a59b717cc74570eefcf1d117be17937933163'): 1,
+ ('historical_host', '<module>', 108, '49b3511f5ae71e18fb91cdd08fba6916608c5ea654f59e478bc433c93b5056cf'): 1,
+ ('internal_url', 'test_historical_disposition_cannot_hide_an_added_internal_url', 467, '746095370fe2a67aaaa7f2414f15f9abf9312655094bf9166a3cbd76150be34a'): 1,
+ ('internal_url', 'test_historical_disposition_cannot_hide_an_added_internal_url', 472, 'f1243b397a9d95c04fcc3ff96cdd383f067d1999e6773c198ffa0ebcfc8fd5df'): 1,
+ ('internal_url', 'test_internal_url_classifier_uses_exact_boundaries', 458, '3973e8f72e6b3292d4e95be96157a236e5c9b7444a4987892cf1253ca1c970eb'): 1,
+ ('internal_url', 'test_internal_url_classifier_uses_exact_boundaries', 459, 'e02f7a62bd538cff9e53b3bec05f5f740f1c3fd639751346c476f871fe13f97e'): 1,
+ ('internal_url', 'test_internal_url_classifier_uses_exact_boundaries', 460, 'f9d411589dde0d9963506dcf7ae3ab6108c10cf5b7bf1ed96a764e89504d46fc'): 1,
+ ('ip_literal', '<module>', 99, 'b0d56c1d28390f7e4ece0ae355b30ebe8c8618788c2d769736a939a7e0bb4dd4'): 1,
+ ('ip_literal', '<module>', 100, '4b2228c26597aecab7d5894eb1ec83d915bc2e1a75d758b3b53471ce6aa2c91c'): 1,
+ ('ip_literal', '<module>', 101, 'b6da1098e40c579e98e90db3586dbc51897b22b28133a30c45aa6f31a5f0b88e'): 1,
+ ('ip_literal', '<module>', 102, '4fb0798e0eb02d5310d95142b51ddadf3d03fcd929382309589f573c0f923264'): 1,
+ ('ip_literal', '<module>', 103, '5da4236dba69f926f858153f06d49edc73f54ce8cd226d7239d1948e663610e0'): 1,
+ ('ip_literal', 'test_historical_disposition_cannot_hide_an_added_internal_url', 472, '99e68e6fb6f98ae9bbcea0fb5d7c831c326653011c5092cfe5daf4357f555984'): 1,
+ ('ip_literal', 'test_internal_url_classifier_uses_exact_boundaries', 450, '25ecb11bfd4a7ea50ba30b45ce32bdb1d3c083445643f00a75d3e039a1f39133'): 1,
+ ('ip_literal', 'test_internal_url_classifier_uses_exact_boundaries', 451, '0622464c1cff74f0dc58479d1b5329cb5edc290e50377b38b42c36d528853b3d'): 1,
+ ('ip_literal', 'test_internal_url_classifier_uses_exact_boundaries', 459, '9fee1dbd126b61ad5eb62f3d8f5e212f23c9b2e198dc972306821b4b2b9df745'): 1,
+ ('ip_literal', 'test_self_disposition_cannot_hide_a_new_match_in_the_same_test', 481, '99e68e6fb6f98ae9bbcea0fb5d7c831c326653011c5092cfe5daf4357f555984'): 1,
  ('legacy_identity', '<module>', 17, '25255e764a9dd3bac6f2a542ba33fff8d97ef7030a82e3a0c033d6abe43c28cb'): 1}
 
 

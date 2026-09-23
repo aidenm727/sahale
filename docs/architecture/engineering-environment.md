@@ -126,7 +126,9 @@ Examples include:
 - Repository validation
 - Engineering state inspection
 
-Existing implementations such as `generate-context.py` and `homelab-change.py` should be viewed as capabilities to integrate rather than duplicate or discard.
+The Sahale `generate-context.py` remains a repository-local generated-context
+tool. The former Homelab change helper is retired by the H1 candidate; its
+dated records remain historical evidence.
 
 The engineering environment should continuously evolve toward a single coherent engineering interface.
 

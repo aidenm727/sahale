@@ -1,5 +1,4 @@
 from pathlib import Path
-import re
 
 from atlas.platform.active_state import load_active_state
 from atlas.platform.mission import render_mission
@@ -7,18 +6,10 @@ from atlas.platform.mission import render_mission
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
-INFRASTRUCTURE_SOURCES = (
-    "infrastructure.md",
-    "infrastructure-virtualization.md",
-    "services.md",
-)
-STRUCTURED_CHANGE_SOURCE_OWNER = "docs/changes"
-STRUCTURED_CHANGE_GLOB = "*.yml"
 AIDEN_CONTEXT_GENERATED_FROM = (
     "docs/current-state.json",
     "docs/current-mission.md",
     "docs/infrastructure-snapshot.md",
-    STRUCTURED_CHANGE_SOURCE_OWNER,
 )
 
 
@@ -71,69 +62,25 @@ def prepare_embedded_markdown(text: str) -> str:
     return "\n".join(prepared).strip()
 
 
-def read_public_source(name: str) -> str:
-    path = DOCS / name
-    return prepare_embedded_markdown(path.read_text(encoding="utf-8"))
-
-
 def build_infrastructure_snapshot() -> str:
-    sections = []
-    for name in INFRASTRUCTURE_SOURCES:
-        title = name.removesuffix(".md").replace("-", " ").title()
-        sections.append(
-            f"## {title}\n\n"
-            f"Source: `docs/{name}`\n\n"
-            f"{read_public_source(name)}"
-        )
-
-    body = "\n\n".join(sections)
     return f"""# Infrastructure Snapshot
 
 > Generated public context artifact.
-> Do not edit directly; update the registered canonical infrastructure sources.
+> Template owner: `build_infrastructure_snapshot()` in `tools/generate-context.py`.
+> Update that template and regenerate the registered outputs to change this text.
 
-This snapshot contains role-based patterns and dated, non-continuous evidence.
-It contains no live-state guarantee or exact private operations record.
+Homelab owns public infrastructure engineering and dated operational evidence:
+https://github.com/aidenm727/homelab (publication pending for this local H1 candidate).
+Sahale retains shared compute and execution policy in
+`docs/architecture/compute.md`. Hosting a Sahale capability on Homelab does
+not transfer design ownership. Current runtime reality requires fresh
+authorized observation.
 
-{body}
 """
 
 
-def structured_change_paths() -> list[Path]:
-    changes_dir = ROOT / STRUCTURED_CHANGE_SOURCE_OWNER
-    if changes_dir.is_symlink() or not changes_dir.is_dir():
-        raise OSError(
-            f"missing or unsafe required context source directory: "
-            f"{STRUCTURED_CHANGE_SOURCE_OWNER}"
-        )
-    return sorted(changes_dir.glob(STRUCTURED_CHANGE_GLOB))
-
-
-def load_recent_changes(limit: int = 5) -> list[str]:
-    paths = structured_change_paths()
-    if not paths:
-        return ["No structured change records found."]
-
-    changes: list[tuple[str, str, str]] = []
-    for path in paths:
-        text = path.read_text(encoding="utf-8")
-        title_match = re.search(r"^title:\s*(.+)$", text, re.MULTILINE)
-        date_match = re.search(r"^date:\s*(.+)$", text, re.MULTILINE)
-        if title_match and date_match:
-            changes.append((date_match.group(1), title_match.group(1), path.name))
-
-    changes.sort(reverse=True)
-    return [f"- {change_date} — {title}" for change_date, title, _ in changes[:limit]]
-
-
 def render_source_graph() -> str:
-    lines = []
-    for path in AIDEN_CONTEXT_GENERATED_FROM:
-        if path == STRUCTURED_CHANGE_SOURCE_OWNER:
-            lines.append(f"- {path}/ (`{STRUCTURED_CHANGE_GLOB}` structured records)")
-        else:
-            lines.append(f"- {path}")
-    return "\n".join(lines)
+    return "\n".join(f"- {path}" for path in AIDEN_CONTEXT_GENERATED_FROM)
 
 
 def expected_outputs() -> dict[str, str]:
@@ -143,7 +90,6 @@ def expected_outputs() -> dict[str, str]:
     mission = prepare_embedded_markdown(mission_text)
     snapshot_text = build_infrastructure_snapshot().rstrip() + "\n"
     snapshot = prepare_embedded_markdown(snapshot_text)
-    recent_changes = "\n".join(load_recent_changes())
     source_graph = render_source_graph()
     generated_date = active_state.freshness.effective_date.isoformat()
 
@@ -156,7 +102,7 @@ Generated: {generated_date} (canonical-state effective date; deterministic)
 This file is an AI-readable generated context packet for the public Sahale
 engineering repository within its assigned root/shared scope. It
 projects repository-local canonical active state, its human companion, and the
-registered public-safe infrastructure snapshot. It is generated and
+registered bounded infrastructure reference. It is generated and
 non-canonical, not a universal ledger of Platform activity. Designated sources
 retain their own authority; see docs/architecture/knowledge-authority.md and
 docs/architecture/repository.md for ownership.
@@ -171,16 +117,13 @@ docs/architecture/repository.md for ownership.
 
 {snapshot}
 
-## Recent Changes
-
-{recent_changes}
-
 ## Registered Source Graph
 
 {source_graph}
 
-The generated infrastructure snapshot declares its canonical infrastructure
-sources. Git history records repository evolution but is not a generator input.
+The generated infrastructure snapshot is a bounded reference to Homelab's
+public engineering owner. Git history records repository evolution but is not
+a generator input.
 
 ## Use Boundary
 

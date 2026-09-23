@@ -121,5 +121,5 @@ software, or no software at all.
 This architecture authorizes no MCP server, API, connector, registry, database,
 retrieval/context daemon, automatic cross-domain retrieval, context routing,
 model routing, or Sahale UI. Those require separately bounded implementation
-checkpoints. It neither creates the specialized Homelab repository nor designs
-or creates its restricted operational source.
+checkpoints. The local H1 Homelab candidate does not create a public repository
+or design a restricted operational source.

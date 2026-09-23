@@ -79,7 +79,7 @@ class AtlasContractTests(unittest.TestCase):
                     generate()
             self.assertEqual(target.read_text(encoding="utf-8"), "untouched")
 
-    def test_required_change_source_missing_fails_generation_check_and_sync(self) -> None:
+    def test_generator_has_no_moved_homelab_source_dependency(self) -> None:
         generator = runpy.run_path(str(ROOT / "tools/generate-context.py"))
         state = SimpleNamespace(
             schema_version=1,
@@ -95,10 +95,6 @@ class AtlasContractTests(unittest.TestCase):
             root = Path(directory)
             docs = root / "docs"
             docs.mkdir()
-            for name in generator["INFRASTRUCTURE_SOURCES"]:
-                (docs / name).write_text("# Synthetic infrastructure\n", encoding="utf-8")
-            changes = docs / "changes"
-            changes.mkdir()
             globals_ = generator["expected_outputs"].__globals__
             with patch.dict(globals_, {
                 "ROOT": root,
@@ -106,21 +102,8 @@ class AtlasContractTests(unittest.TestCase):
                 "load_active_state": lambda **_: state,
             }):
                 outputs = generator["expected_outputs"]()
-                self.assertIn("No structured change records found.", outputs["aiden-context.md"])
+                self.assertIn("Homelab owns public infrastructure engineering", outputs["infrastructure-snapshot.md"])
+                self.assertNotIn("docs/changes", outputs["aiden-context.md"])
                 generator["generate_context"]()
                 self.assertEqual(generator["check_outputs"](), [])
-                original = {name: (docs / name).read_bytes() for name in outputs}
-
-                changes.rmdir()
-                for operation in (generator["expected_outputs"], generator["check_outputs"], generator["generate_context"]):
-                    with self.subTest(operation=operation.__name__):
-                        with self.assertRaisesRegex(OSError, "required context source directory: docs/changes"):
-                            operation()
-                self.assertEqual(original, {name: (docs / name).read_bytes() for name in outputs})
-
-                with patch.object(cli.runpy, "run_path", return_value={"check_outputs": generator["check_outputs"]}):
-                    output = StringIO()
-                    with redirect_stdout(output):
-                        self.assertEqual(cli.main(["sync"]), 1)
-                    self.assertIn("docs/changes", output.getvalue())
-                    self.assertNotIn("synchronized", output.getvalue())
+                self.assertNotIn("docs/infrastructure.md", outputs["infrastructure-snapshot.md"])
