@@ -1,213 +1,89 @@
 # Sahale
 
-> A human-directed personal capability platform for learning, building,
-> knowledge, AI, and useful everyday systems.
+Sahale is a self-hosted personal web application for workout tracking,
+internship application management, and AI-assisted workflows.
 
-Sahale is the human-facing platform identity. ChatGPT is currently a primary
-interaction and capability-incubation environment; it is not Sahale itself.
-Neither one repository, the Homelab, one database, one model, nor one execution
-environment defines the platform.
+It lets me plan and log workouts, track applications and deadlines, and use an
+AI assistant to propose changes to my training. Those suggestions never change
+my data unless I explicitly review and apply them.
 
-This repository remains the root Sahale engineering repository for shared systems,
-Platform-wide architecture, cross-domain contracts, and explicitly assigned
-responsibilities. It supports useful capability with explicit authority,
-reproducible evidence, and replaceable technology.
-It is not a production SaaS platform, proof of continuous uptime, or a claim of
-autonomous operation.
+## What it does
 
-The human owner chooses goals, grants bounded authority, reviews evidence, and
-accepts consequences. Repository state, Atlas, generated context, and AI
-assistance never grant permission.
+**Fitness**
 
-## What Exists Today
+- Training goals and blocks, reusable workouts such as "Upper A", and custom
+  exercises alongside the built-in library.
+- Start any workout and log each set as you go, with last session's numbers
+  shown for reference. Finished sessions move to permanent history, and editing
+  a workout later never rewrites past sessions.
+- Rest timers that stay correct even while the phone is locked, with pause,
+  skip, and time adjustment.
+- Optional dated plans for when you want a schedule.
 
-Here, **implemented** means repository code and tests exist, **operational
-evidence** means a dated observation or use record exists, and **future** means
-no implementation or operation is claimed.
+**Career**
 
-| Capability | Status | Proof |
-| --- | --- | --- |
-| School Learning | Implemented; used in a bounded owner pilot | [Architecture](docs/architecture/school-learning.md), [implementation](tools/school_learning/), [tests](tests/test_school_learning.py), [pilot evaluation](docs/reviews/school-learning-v0-1-pilot-evaluation-2026-07-21.md) |
-| Atlas and Workflow v1.2 | Implemented; operational as the repository workflow | [`./atlas`](atlas), [typed state](docs/current-state.json), [W2 evidence](docs/reviews/engineering-workflow-v1-2-evidence-2026-09-16.md) |
-| Task-scoped context compilation | Implemented library capability; no general public CLI claim | [Architecture](docs/architecture/task-scoped-agent-context-compilation.md), [compiler](tools/atlas/platform/context_compilation/), [selection](tools/atlas/platform/reasoning/context_selection.py), [tests](tests/test_context_compilation.py) |
-| Self-hosted infrastructure | Dated operational evidence; continuous state is not claimed | [Published Homelab public engineering](https://github.com/aidenm727/homelab) |
+- Application records with status history, dated next actions, deadlines, a
+  pipeline view, and CSV export.
+- Starts empty: nothing is imported or invented, and a status never changes on
+  its own because time has passed.
 
-Implemented today: deterministic repository engineering tools, reproducible
-task-scoped context compilation, and an owner-controlled School Learning
-workflow.
+**Fitness assistant**
 
-Operational evidence: a small self-hosted environment has supported core
-networking, observability, backup, virtualization, and selected services.
-Public records are sanitized and time-bounded; they do not prove continuous
-availability.
+- Preview the context the assistant will receive and choose what to include.
+- Conversations and streamed replies are saved, including a reply that was cut
+  off part-way.
+- An explicit choice between an offline mock provider and a live model. A failed
+  live request is shown as a failure, never quietly replaced by mock output.
+- Workout changes arrive as proposals you can apply, dismiss, or revert while
+  nothing has changed since.
 
-Future work: knowledge sovereignty, demonstrated recovery, and local-AI
-experiments remain planned or exploratory until a dated evidence record
-establishes implementation and operation.
+The app shell ties these together with hierarchical navigation, a command
+palette, a contextual Ask panel, and a runtime status view.
 
-## Architecture
+School, Computing, Food, and Sleep are still interface prototypes, as is Ask
+outside Fitness. Some of them save to browser storage, but none has
+server-backed records like Fitness and Career, and the Computing pages do not
+manage real infrastructure.
 
-Canonical authority is source-scoped. This root record, selectively earned
-specialized engineering repositories, restricted operational records, external
-systems, and live systems may own distinct responsibilities. Atlas and typed
-state describe this repository; they are not a universal Platform ledger.
-See [Repository Architecture](docs/architecture/repository.md) for ownership.
+## Engineering highlights
 
-[Context Coordination](docs/architecture/context-coordination.md) defines the
-intended planning responsibility above existing deterministic context
-compilation. It aims at automatic bounded context resolution across sources,
-not centralization. Its runtime remains deferred; retrieval never grants action
-authority. [Platform Architecture](docs/architecture/platform.md) distinguishes
-workspaces, Projects, and durable capabilities, and Homelab’s workspace, source,
-and infrastructure roles. Hosting a Sahale service does not change its owner.
+- **Database upgrades that keep existing records.** Before a schema migration
+  touches an existing database, Sahale takes an online backup, applies every
+  pending migration in one transaction, and refuses to commit if any reference
+  would break. Tests build databases from older versions, fill them with
+  records, and upgrade them.
+  [Case study: evolving SQLite without discarding records](docs/case-studies/sqlite-migrations.md)
+- **An assistant that cannot write directly.** Model output is validated and
+  stored as a pending proposal. Applying it is a separate request that re-checks
+  the target's version inside a transaction, so a suggestion made against an
+  older workout is refused instead of overwriting newer data.
+  [Case study: AI suggestions with explicit, transactional application](docs/case-studies/ai-proposals.md)
+- **Private by default.** The server listens only on localhost. Remote access
+  goes through Tailscale Serve for one configured identity, and the server
+  checks the host, origin, and Tailscale identity of incoming requests.
+  [Architecture](docs/architecture.md#self-hosted-packaging-and-access-assumptions)
 
-```text
-Human owner
-  ├── goals, authority, review, acceptance
-  │
-  ▼
-Public engineering record
-  ├── architecture and standards
-  ├── deterministic tooling and tests
-  ├── capability implementations
-  └── sanitized evidence
-          │
-          ├── explicit bounded handoff ──► Replaceable AI providers/runtimes
-          │
-          └── public-safe patterns ─────► Self-hosted execution environments
+## Built with
 
-Future restricted operational source, separately designed
-  └── exact non-secret desired state when a durable artifact is identified
-      (current reality remains owned by live systems and fresh observation)
-```
+TypeScript, React, Vite, React Router, and Zustand in the browser. Node.js and
+Fastify on the server, including streamed assistant replies. SQLite through
+better-sqlite3 and Drizzle ORM. Zod for request and proposal validation. Vitest
+for service and HTTP tests against temporary databases and injected AI
+providers. Linux systemd units run the server and scheduled database snapshots.
 
-## Proof in Practice
+## Read more
 
-### School Learning
+- [Architecture, development, testing, and deployment](docs/architecture.md)
+- [Case study: evolving SQLite without discarding records](docs/case-studies/sqlite-migrations.md)
+- [Case study: AI suggestions with explicit, transactional application](docs/case-studies/ai-proposals.md)
+- [History: earlier experiments in this repository](docs/history.md)
 
-The [School Learning architecture](docs/architecture/school-learning.md) defines
-a local data contract, grounded Guided Study Handoff, and explicit
-insufficient-evidence behavior. The [implementation](tools/school_learning/),
-[negative-path tests](tests/test_school_learning.py), and [dated pilot
-evaluation](docs/reviews/school-learning-v0-1-pilot-evaluation-2026-07-21.md)
-show the chain from an owner problem through real use and correction. Personal
-course material, answers, and learning history remain outside Git.
+## About this repository
 
-### Task-Scoped Context Compilation
+The application source is maintained in a separate private repository. This
+public repository documents its architecture, engineering decisions, and
+selected technical evidence. The infrastructure behind Sahale is documented
+separately in my [Homelab repository](https://github.com/aidenm727/homelab).
 
-The [context architecture](docs/architecture/task-scoped-agent-context-compilation.md)
-is implemented as bounded snapshot, selector, selection, materialization,
-validation, digest, and compiler layers under
-[`tools/atlas/platform/context_compilation/`](tools/atlas/platform/context_compilation/).
-The [snapshot](tests/test_context_snapshot.py),
-[selection](tests/test_context_selection.py), and
-[materialization](tests/test_context_materialization.py) tests cover immutable
-identity, provenance, byte budgets, omissions, and consumer constraints. This
-is a library capability, not a claim of a general public CLI or production
-service.
-
-### Atlas and Workflow v1.2
-
-Atlas checks typed repository state, local evidence identity, Git observations,
-and generated-output drift. The
-[canonical state](docs/current-state.json),
-[collaboration standard](docs/standards/engineering-collaboration.md),
-[Atlas tests](tests/test_atlas.py), and
-[W2 evidence](docs/reviews/engineering-workflow-v1-2-evidence-2026-09-16.md)
-show how typed state remains separate from owner authority.
-
-## Engineering Quality
-
-```text
-real problem
-→ owner decision
-→ bounded implementation
-→ negative/adversarial tests
-→ independent review
-→ correction
-→ reproducible verification
-→ owner acceptance
-```
-
-Verification counts are dated outcomes, not permanent claims about the current
-suite. For example, W1 recorded 406 passing tests and one skip on 2026-08-02;
-the linked evidence and Git history own that historical result. On 2026-08-06,
-local post-rename finalization verification passed 429 tests with one skip. The
-exact candidate then received fresh adversarial review and owner acceptance.
-R1 is recorded as published and complete; the accepted lifecycle correction
-was published on 2026-08-07 as immutable R1 publication commit
-`483f1111257c9b1608c100cb88c8304a17d85314`.
-
-## Inspect or Run
-
-From the repository root in the current checkout:
-
-```bash
-PYTHONDONTWRITEBYTECODE=1 ./atlas bootstrap
-PYTHONDONTWRITEBYTECODE=1 ./atlas validate
-PYTHONDONTWRITEBYTECODE=1 ./atlas sync
-PYTHONDONTWRITEBYTECODE=1 ./school --help
-PYTHONPATH=tools PYTHONDONTWRITEBYTECODE=1 \
-  python3 -m unittest discover -s tests -p 'test_*.py'
-```
-
-`./atlas bootstrap` reports local observations; it does not authorize work.
-`tools/generate-context.py` regenerates the mission view and the two context
-artifacts. School Learning keeps personal data outside Git. The canonical clone
-target is:
-
-```bash
-git clone https://github.com/aidenm727/sahale.git
-```
-
-## Public and Private Boundary
-
-| Fact class | Canonical owner |
-| --- | --- |
-| Root/shared Platform architecture, standards, code, tests, repository state and evidence within assigned scope | This public repository |
-| Independently substantial project/system engineering | An explicitly designated specialized repository when earned; Homelab is the first published owner |
-| Homelab infrastructure patterns and selected dated public evidence | [Published Homelab public engineering repository](https://github.com/aidenm727/homelab) |
-| Exact non-secret Homelab desired operational state | A separately designed restricted canonical source when a concrete durable operational artifact is identified |
-| Secret values, private keys, tokens, and recovery keys | Secret manager or protected operational storage; never Git |
-| Current live reality | Live systems and fresh observation |
-| GitHub description, topics, settings, rules, and integrations | GitHub itself; only dated summaries belong here |
-
-The canonical boundaries and trigger for a future restricted source are in
-[Repository Architecture](docs/architecture/repository.md).
-
-## Current and Future
-
-Sahale capabilities may grow from natural/manual/chat use through recurring
-friction, actual requirements, and the smallest capability that earns
-implementation, followed by continued use and reevaluation. Instructions,
-structured state, integration, automation, a Project, UI, backend software, or
-continued conversation can each be the appropriate outcome. Workspaces use
-functional names such as Vision, Engineering, Homelab, Health, Fitness, Career,
-and Email. A dedicated Sahale UI remains deferred until useful capabilities
-exist for it to expose.
-
-Homelab is the first published specialized-repository boundary. H1 extraction
-and public cutover are complete. A restricted operational source remains
-conditional on a concrete durable artifact.
-Local AI, broader knowledge sovereignty, additional recovery proof, and an
-automatic coordination runtime are also future or conditional work.
-
-The [canonical state](docs/current-state.json) records H1 — Homelab Repository
-Extraction as published and selects intentional idle. The [generated current
-view](docs/current-mission.md) presents that state for humans. Dated evidence
-and Git history retain completed R1, R2, I1, and earlier lifecycle details.
-
-Sahale grew from the earlier Aiden Platform and a ThinkPad T430 homelab. Current
-delivered capability centers on School Learning, Atlas/Workflow v1.2,
-task-scoped compilation, and public-safe dated infrastructure evidence. Earlier
-Personal AI and AidenOS concepts now map to the durable AI, Knowledge and
-Context, coordination, Automation and Integration, and Interaction and
-Experience responsibilities; they do not require replacement products.
-
-## Navigate Deeper
-
-- [Vision and human authority](docs/vision.md)
-- [Platform architecture](docs/architecture/platform.md)
-- [Canonical current state](docs/current-state.json)
-- [Dated review evidence](docs/reviews/)
-- [Full documentation map](docs/docs-map.md)
+Technical descriptions reflect the application implementation reviewed on
+October 14, 2026.
